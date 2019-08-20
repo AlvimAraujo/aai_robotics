@@ -67,8 +67,8 @@ class RosiNodeClass():
 
 	# Callback da leitura do teclado (teleop callback)
 	def callback_teleop(self, msg):
-		self.omega_right = 5*msg.linear.x + 5*msg.angular.z
-		self.omega_left = 5*msg.linear.x - 5*msg.angular.z
+		self.omega_right = 3*msg.linear.x + 2*msg.angular.z
+		self.omega_left = 3*msg.linear.x - 2*msg.angular.z
 
 # Funcao principal
 if __name__ == '__main__':
@@ -79,4 +79,5 @@ if __name__ == '__main__':
 	# Inicializa o objeto
 	try:
 		node_obj = RosiNodeClass()
-	except rospy.ROSInterruptException: pass
+	except rospy.ROSInterruptException:
+		pass
