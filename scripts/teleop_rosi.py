@@ -1,172 +1,82 @@
 #!/usr/bin/env python
+# CODIGO QUE CONTROLA ROSI PELO TECLADO #
 import rospy
 import numpy as np
 from rosi_defy.msg import RosiMovement
 from rosi_defy.msg import RosiMovementArray
 from geometry_msgs.msg import Twist
-#from rosi_defy.msg import ManipulatorJoints
-#from sensor_msgs.msg import Joy
 
+#Classe RosiNodeClass responsavel por todo o processo do programa
 class RosiNodeClass():
 
-	# class attributes
+	# Atributos segundo o manual
 	max_translational_speed = 5 # in [m/s]
 	max_rotational_speed = 10 # in [rad/s]
-	#max_arms_rotational_speed = 0.52 # in [rad/s]
-
-	# how to obtain these values? see Mandow et al. COMPLETE THIS REFERENCE
 	var_lambda = 0.965
 	wheel_radius = 0.1324
 	ycir = 0.531
 
-	# class constructor
+	# Class constructor
 	def __init__(self):
 
-		# initializing some attributes
+		# Comandos que serao enviados para as rodas da direita e da esquerda
 		self.omega_left = 0
 		self.omega_right = 0
-		# self.arm_front_rotSpeed = 0
-		# self.arm_rear_rotSpeed = 0
 
-		# computing the kinematic A matrix
-		# self.kin_matrix_A = self.compute_kinematicAMatrix(self.var_lambda, self.wheel_radius, self.ycir)
-
-		# sends a message to the user
+		# Mensagem de inicializacao
 		rospy.loginfo('Rosi_teleop node started')
 
-		# registering to publishers
+		# Publicar no no command_traction_speed
 		self.pub_traction = rospy.Publisher('/rosi/command_traction_speed', RosiMovementArray, queue_size=1)
-		# self.pub_arm = rospy.Publisher('/rosi/command_arms_speed', RosiMovementArray, queue_size=1)
 
-		# registering to subscribers
+		# Subscrever no no cmd_vel
 		self.sub_teleop = rospy.Subscriber('/cmd_vel', Twist, self.callback_teleop)
 
-		# defining the eternal loop frequency
+		# Frequencia de publicacao
 		node_sleep_rate = rospy.Rate(10)
 
-		# eternal loop (until second order)
+		# Loop principal, responsavel pelos procedimentos chaves do programa
 		while not rospy.is_shutdown():
 
-			#arm_command_list = RosiMovementArray()
+			# Comando de tracao final
 			traction_command_list = RosiMovementArray()
 
-			# mounting the lists
+			# Criar traction_command_list
 			for i in range(4):
 
-				# ----- treating the traction commands
+				# Um comando de tracao por roda
 				traction_command = RosiMovement()
 
-				# mount traction command list
+				# ID da roda
 				traction_command.nodeID = i+1
 
-				# separates each traction side command
+				# Separa as rodas do lado direito do esquerdo
 				if i < 2:
 					traction_command.joint_var = self.omega_right
 				else:
 					traction_command.joint_var = self.omega_left
 
-				# appending the command to the list
+				# Adiciona o comando ao comando de tracao final
 				traction_command_list.movement_array.append(traction_command)
 
-				# ----- treating the arms commands
-				#arm_command = RosiMovement()
-
-				# mounting arm command list
-				#arm_command.nodeID = i+1
-
-				# separates each arm side command
-				# if i == 0 or i == 2:
-				# 	arm_command.joint_var = self.arm_front_rotSpeed
-				# else:
-				# 	arm_command.joint_var = self.arm_rear_rotSpeed
-
-				# appending the command to the list
-				#arm_command_list.movement_array.append(arm_command)
-
-			# publishing
-			#self.pub_arm.publish(arm_command_list)
+			# Publicacao
 			self.pub_traction.publish(traction_command_list)
 
-			# sleeps for a while
+			# Pausa
 			node_sleep_rate.sleep()
 
-		# infinite loop
-		#while not rospy.is_shutdown():
-			# pass
-
-		# enter in rospy spin
-		#rospy.spin()
-
-	# joystick callback function
+	# Callback da leitura do teclado (teleop callback)
 	def callback_teleop(self, msg):
+		self.omega_right = 5*msg.linear.x + 5*msg.angular.z
+		self.omega_left = 5*msg.linear.x - 5*msg.angular.z
 
-		# # saving joy commands
-		# axes_lin = msg.axes[1]
-		# axes_ang = msg.axes[0]
-		# trigger_left = msg.axes[2]
-		# trigger_right = msg.axes[5]
-		# button_L = msg.buttons[4]
-		# button_R = msg.buttons[5]
-		#
-		# # Treats axes deadband
-		# if axes_lin < 0.15 and axes_lin > -0.15:
-		# 	axes_lin = 0
-		#
-		# if axes_ang < 0.15 and axes_ang > -0.15:
-		# 	axes_ang = 0
-		#
-		# # treats triggers range
-		# trigger_left = ((-1 * trigger_left) + 1) / 2
-		# trigger_right = ((-1 * trigger_right) + 1) / 2
-		#
-		# # computing desired linear and angular of the robot
-		# vel_linear_x = self.max_translational_speed * axes_lin
-		# vel_angular_z = self.max_rotational_speed * axes_ang
-		#
-		# # -- computes traction command - kinematic math
-		#
-		# # b matrix
-		# b = np.array([[vel_linear_x],[vel_angular_z]])
-		#
-		# # finds the joints control
-		# x = np.linalg.lstsq(self.kin_matrix_A, b, rcond=-1)[0]
-
-		# query the sides velocities
-		self.omega_right = msg.linear.x - msg.angular.z
-		self.omega_left = msg.linear.x + msg.angular.z
-
-		# -- computes arms command
-		# front arms
-		# if button_R == 1:
-		# 	self.arm_front_rotSpeed = self.max_arms_rotational_speed * trigger_right
-		# else:
-		# 	self.arm_front_rotSpeed = -1 * self.max_arms_rotational_speed * trigger_right
-		#
-		# # rear arms
-		# if button_L == 1:
-		# 	self.arm_rear_rotSpeed = -1 * self.max_arms_rotational_speed * trigger_left
-		# else:
-		# 	self.arm_rear_rotSpeed = self.max_arms_rotational_speed * trigger_left
-
-	# ---- Support Methods --------
-
-	# -- Method for compute the skid-steer A kinematic matrix
-	@staticmethod
-	def compute_kinematicAMatrix(var_lambda, wheel_radius, ycir):
-
-		# kinematic A matrix
-		matrix_A = np.array([[var_lambda*wheel_radius/2, var_lambda*wheel_radius/2],
-							[(var_lambda*wheel_radius)/(2*ycir), -(var_lambda*wheel_radius)/(2*ycir)]])
-
-		return matrix_A
-
-# instaciate the node
+# Funcao principal
 if __name__ == '__main__':
 
-	# initialize the node
+	# Inicializa o no
 	rospy.init_node('rosi_teleop_node', anonymous=True)
 
-	# instantiate the class
+	# Inicializa o objeto
 	try:
 		node_obj = RosiNodeClass()
 	except rospy.ROSInterruptException: pass
