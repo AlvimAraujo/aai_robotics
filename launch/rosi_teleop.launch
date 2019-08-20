@@ -1,11 +1,14 @@
 <launch>
 
-	<!-- running the joystick node -->
-	<node name="joy_node" pkg="joy" type="joy_node" respawn="true" />
+	<!-- No que transforma comandos do teclado em comandos de velocidade -->
+	<node name="teleop_to_rosi" pkg="AAI_robotics" type="teleop_rosi.py" respawn="true" />
 
-	<!-- running the rosi joystick example node -->
-	<node name="rosi_joy" pkg="rosi_defy" type="rosi_joy.py" respawn="true"/>
+	<!-- No que le o teclado-->
+	<node pkg="turtlesim" name="teleop_key" type="turtle_teleop_key">
+		<remap from="turtle1/cmd_vel" to="cmd_vel"/>
+	</node>
 
-	<rosparam command="load" file="$(find rosi_defy)/config/simulation_parameters.yaml" />
+	<!-- Parametros da simulacao para rodar mais leve-->
+	<rosparam command="load" file="$(find rosi_defy)/config/simulation_parametersMAISLEVE.yaml" />
 
 </launch>
