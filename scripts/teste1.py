@@ -2,7 +2,7 @@
 import rospy
 from rosi_defy.msg import RosiMovement
 from rosi_defy.msg import RosiMovementArray
-
+# ------------------ Teste ------------------
 def talker():
     rospy.init_node('teste1_mover', anonymous=True)
     pub = rospy.Publisher('/rosi/command_traction_speed', RosiMovementArray, queue_size=1)
