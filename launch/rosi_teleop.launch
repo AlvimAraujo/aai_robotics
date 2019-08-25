@@ -1,11 +1,11 @@
 <launch>
 
 	<!-- No que transforma comandos do teclado em comandos de velocidade -->
-	<node name="teleop_to_rosi" pkg="AAI_robotics" type="teleop_rosi.py" respawn="true" />
+	<node name="teleop_to_rosi" pkg="aai_robotics" type="teleop_rosi.py" respawn="true" />
 
 	<!-- No que le o teclado-->
 	<node pkg="turtlesim" name="teleop_key" type="turtle_teleop_key">
-		<remap from="turtle1/cmd_vel" to="cmd_vel"/>
+		<remap from="turtle1/cmd_vel" to="aai_rosi_cmd_vel"/>
 	</node>
 
 	<!-- Parametros da simulacao para rodar mais leve-->
