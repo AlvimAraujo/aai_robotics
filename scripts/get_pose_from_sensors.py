@@ -28,7 +28,7 @@ class RosiPoseClass():
         node_sleep_rate = rospy.Rate(10)
 
         # Mensagem de inicializacao
-        rospy.loginfo('vel_to_wheels iniciado')
+        rospy.loginfo('get_pose_from_sensors iniciado')
 
         # Loop principal, responsavel pelos procedimentos chaves do programa
         while not rospy.is_shutdown():
