@@ -9,6 +9,6 @@
 	</node>
 
 	<!-- Parametros da simulacao para rodar mais leve-->
-	<rosparam command="load" file="$(find rosi_defy)/config/simulation_parametersMAISLEVE.yaml" />
+	<rosparam command="load" file="$(find aai_robotics)/config/simulation_parametersMAISLEVE.yaml" />
 
 </launch>
