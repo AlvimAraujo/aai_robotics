@@ -50,7 +50,7 @@ class RosiCmdVelClass():
 		# Frequencia de publicacao
 		node_sleep_rate = rospy.Rate(10)
 		# Mensagem de inicializacao
-		rospy.loginfo('controle_feedback_linearization_lista_pontos iniciado')
+		rospy.loginfo('primeira_tarefa_v1 iniciado')
 
 		# Loop principal, responsavel pelos procedimentos chaves do programa
 		while not rospy.is_shutdown():

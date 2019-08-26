@@ -1,7 +1,7 @@
 <launch>
 
 	<!-- No que transforma comandos do teclado em comandos de velocidade -->
-	<node name="teleop_to_rosi" pkg="aai_robotics" type="teleop_rosi.py" respawn="true" />
+	<node name="vel_to_wheels" pkg="aai_robotics" type="vel_to_wheels.py" respawn="true" />
 
 	<!-- No que le o teclado-->
 	<node pkg="turtlesim" name="teleop_key" type="turtle_teleop_key">

@@ -37,7 +37,7 @@ class RosiNodeClass():
 		self.pub_traction = rospy.Publisher('/rosi/command_traction_speed', RosiMovementArray, queue_size=1)
 
 		# Subscrever em aai_rosi_cmd_vel
-		self.sub_teleop = rospy.Subscriber('/aai_rosi_cmd_vel', Twist, self.callback_cmd_vel)
+		self.sub_cmd_vel = rospy.Subscriber('/aai_rosi_cmd_vel', Twist, self.callback_cmd_vel)
 
 		# Frequencia de publicacao
 		node_sleep_rate = rospy.Rate(10)
