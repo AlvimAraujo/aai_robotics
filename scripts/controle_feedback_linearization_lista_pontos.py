@@ -54,13 +54,22 @@ class RosiCmdVelClass():
 
 		# Loop principal, responsavel pelos procedimentos chaves do programa
 		while not rospy.is_shutdown():
-			x_goal_str, y_goal_str = raw_input('Digite a coordenada (x,y) desejada: ').split()
-			x_goal, y_goal = [float(i) for i in [x_goal_str, y_goal_str]]
-			while abs(self.pos_x - x_goal) > Err or abs(self.pos_y - y_goal) > Err:
-				vel_msg = Twist()
-				[vel_msg.linear.x, vel_msg.angular.z] = calc_vel_feedback_linearization(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
-				self.pub_cmd_vel.publish(vel_msg)
-				node_sleep_rate.sleep()
+			#x_goal_str, y_goal_str = raw_input('Digite a coordenada (x,y) desejada: ').split()
+			#x_goal, y_goal = [float(i) for i in [x_goal_str, y_goal_str]]
+
+			Pontos = list()
+			for i in range(41):
+				Pontos += [(-i, 3)]
+
+			for (x_goal, y_goal) in Pontos:
+				while abs(self.pos_x - x_goal) > Err or abs(self.pos_y - y_goal) > Err:
+					vel_msg = Twist()
+					[vel_msg.linear.x, vel_msg.angular.z] = calc_vel_feedback_linearization(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
+					self.pub_cmd_vel.publish(vel_msg)
+					node_sleep_rate.sleep()
+
+
+
 
 	# Callback da posicao
 	def callback_pose(self, data):

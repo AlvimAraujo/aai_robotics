@@ -18,7 +18,7 @@ class RosiNodeClass():
 	ycir = 0.531
 
 	#Distancia entre as rodas direitas e esquerdas
-	L = 0.4
+	L = 0.6
 
 	# Class constructor
 	def __init__(self):
@@ -28,7 +28,7 @@ class RosiNodeClass():
 		self.omega_right = 0
 		# Atalhos para informar que deve mandar velocidade 0 quando nao houver comandos de velocidade
 		self.last = 0
-		self.TIME_OUT = 1
+		self.TIME_OUT = 0.1
 
 		# Mensagem de inicializacao
 		rospy.loginfo('vel_to_wheels iniciado')

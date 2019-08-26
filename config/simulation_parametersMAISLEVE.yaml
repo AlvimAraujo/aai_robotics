@@ -1,5 +1,5 @@
  # rosi simulation parameters
- rosi_simulation: 
+ rosi_simulation:
 
   # Simulation Rendering Flag
   # disable it for faster simulation (but no visualization)
@@ -19,9 +19,9 @@
   # Hokuyo processing flag
   # disable it for faster simulation (but no hokuyo data)
   # possible values: true, false.
-  hokuyo_processing: false
+  hokuyo_processing: true
 
-  # Hokuyo drawing lines 
+  # Hokuyo drawing lines
   # enable it for seeing hokuyo lines
   # possible values: true, false.
   hokuyo_lines: false
