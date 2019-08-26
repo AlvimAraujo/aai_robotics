@@ -11,7 +11,7 @@ from math import sin, cos
 # Ganhor proporcional
 Kp = 1
 # Distancia entre o centro de massa e a ponta
-d = 0.1
+d = 0.4
 # Precisao na chegada ao ponto
 Err = 0.5
 
@@ -50,7 +50,7 @@ class RosiCmdVelClass():
 		# Frequencia de publicacao
 		node_sleep_rate = rospy.Rate(10)
 		# Mensagem de inicializacao
-		rospy.loginfo('vel_to_wheels iniciado')
+		rospy.loginfo('controle_feedback_linearization_lista_pontos iniciado')
 
 		# Loop principal, responsavel pelos procedimentos chaves do programa
 		while not rospy.is_shutdown():
@@ -59,7 +59,7 @@ class RosiCmdVelClass():
 
 			Pontos = list()
 			for i in range(41):
-				Pontos += [(-i, 3)]
+				Pontos += [(-i, 2.5)]
 
 			for (x_goal, y_goal) in Pontos:
 				while abs(self.pos_x - x_goal) > Err or abs(self.pos_y - y_goal) > Err:
@@ -67,6 +67,9 @@ class RosiCmdVelClass():
 					[vel_msg.linear.x, vel_msg.angular.z] = calc_vel_feedback_linearization(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
 					self.pub_cmd_vel.publish(vel_msg)
 					node_sleep_rate.sleep()
+
+			#Pontos += [(-i-2, 3)]
+			Pontos.reverse()
 
 
 
