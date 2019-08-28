@@ -1,7 +1,8 @@
 <launch>
 
 	<!-- No que transforma comandos de velocidade em comandos para as rodas -->
-	<node name="vel_to_wheels" pkg="aai_robotics" type="vel_to_wheels_2.py" output = "screen" respawn="true" />
+	<node name="vel_to_wheels" pkg="aai_robotics" type="vel_to_wheels.py" output = "screen" respawn="true" />
+	<!--node name="vel_to_wheels" pkg="aai_robotics" type="vel_to_wheels_limited.py" output = "screen" respawn="true" /-->
 
   <!-- No que une as informacoes de posicao(gps e imu) em um unico topico -->
 	<node name="get_pose_from_sensors" pkg="aai_robotics" type="get_pose_from_sensors.py" output = "screen" respawn="true" />

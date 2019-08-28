@@ -15,6 +15,10 @@ d = 0.1
 # Precisao na chegada ao ponto
 Err = 0.5
 
+MAX_VEL = 1.5
+
+MIN_VEL = 0.3
+
 # Funcao que calcula os sinais V e omega dado Vx, Vy, e a posicoes inicial e final
 def calc_vel_feedback_linearization(current_x, current_y, current_theta, x_goal, y_goal):
 	#LEMBRETE: IMPLEMENTAR LIMITACAO DAS VELOCIDADES
@@ -23,6 +27,12 @@ def calc_vel_feedback_linearization(current_x, current_y, current_theta, x_goal,
 
 	V_forward = cos(current_theta) * vel_x + sin(current_theta) * vel_y
 	W_angular = (-sin(current_theta) / d) * vel_x + (cos(current_theta) / d) * vel_y
+
+	if V_forward**2 > MAX_VEL**2:
+		V_forward = V_forward/abs(V_forward) * MAX_VEL
+
+	if V_forward**2 < MIN_VEL**2 and V_forward <> 0:
+		V_forward = V_forward/abs(V_forward) * MIN_VEL
 
 	return (V_forward, W_angular)
 
