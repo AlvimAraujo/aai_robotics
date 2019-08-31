@@ -78,23 +78,19 @@ class RosiCmdVelClass():
 
 
 		# Campo potencial repulsivo
-		# (b_x, b_y) eh o ponto de obstaculos mais proximo do robo
-		# b_x
-		# b_y
-		#
-		# Kr = 1
-		# d_min = 3
-		# P_q = sqrt( (current_x - b_x)**2 + (current_y - b_y)**2 )
-		#
-		# if P_q <= d_min:
-		# 	vel_x_rep = Kr * ( (1/P_q) - (1/d_min) ) * (1/P_q**2) *  (current_x - b_x)
-		# 	vel_y_rep = Kr * ( (1/P_q) - (1/d_min) ) * (1/P_q**2) *  (current_y - b_y)
-		# else:
-		# 	vel_x_rep = 0
-		# 	vel_y_rep = 0
+		b_x = current_x + 10
+		b_y = current_y + 10
 
-		vel_x_rep = 0
-		vel_y_rep = 0
+		Kr = 1
+		d_min = 3
+		P_q = sqrt( (current_x - b_x)**2 + (current_y - b_y)**2 )
+
+		if P_q <= d_min:
+			vel_x_rep = Kr * ( (1/P_q) - (1/d_min) ) * (1/P_q**2) *  (current_x - b_x)
+			vel_y_rep = Kr * ( (1/P_q) - (1/d_min) ) * (1/P_q**2) *  (current_y - b_y)
+		else:
+			vel_x_rep = 0
+			vel_y_rep = 0
 
 		# Campo potencial final
 		vel_x = self.Kp * (vel_x_att + vel_x_rep)
