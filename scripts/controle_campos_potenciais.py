@@ -6,6 +6,7 @@ import rospy
 from geometry_msgs.msg import Twist, Pose
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
 from math import sin, cos, sqrt
+from rosi_defy.msg import HokuyoReading
 
 # Constantes de controle, necessita calibrar
 # Ganhor proporcional
@@ -34,10 +35,15 @@ class RosiCmdVelClass():
 		# Posicao (x, y, theta)
 		self.pos_x = 0.1
 		self.pos_y = 0.1
+		self.pos_z = 0.1
 		self.angle = 0.1
+
+		self.nearest_obstacle_x = 0.1
+		self.nearest_obstacle_y = 0.1
 
 		# Nos que subscreve e publica # kkkk
 		self.sub_pose = rospy.Subscriber('/aai_rosi_pose', Pose, self.callback_pose)
+		self.sub_hok = rospy.Subscriber('/aai_rosi_border_obstacle', HokuyoReading, self.callback_hok)
 		self.pub_cmd_vel = rospy.Publisher('/aai_rosi_cmd_vel', Twist, queue_size=1)
 
 		# Frequencia de publicacao
@@ -77,22 +83,20 @@ class RosiCmdVelClass():
 
 		# Campo potencial repulsivo
 		# (b_x, b_y) eh o ponto de obstaculos mais proximo do robo
-		# b_x
-		# b_y
-		#
-		# Kr = 1
-		# d_min = 3
-		# P_q = sqrt( (current_x - b_x)**2 + (current_y - b_y)**2 )
-		#
-		# if P_q <= d_min:
-		# 	vel_x_rep = Kr * ( (1/P_q) - (1/d_min) ) * (1/P_q**2) *  (current_x - b_x)
-		# 	vel_y_rep = Kr * ( (1/P_q) - (1/d_min) ) * (1/P_q**2) *  (current_y - b_y)
-		# else:
-		# 	vel_x_rep = 0
-		# 	vel_y_rep = 0
+		b_x = self.nearest_obstacle_x
+		b_y = self.nearest_obstacle_y
 
-		vel_x_rep = 0
-		vel_y_rep = 0
+		# print('Nearest: ', b_x, b_y)
+		Kr = 1
+		d_min = 3
+		P_q = sqrt( (current_x - b_x)**2 + (current_y - b_y)**2 )
+
+		if P_q <= d_min:
+			vel_x_rep = Kr * ( (1/P_q) - (1/d_min) ) * (1/P_q**2) *  (current_x - b_x)
+			vel_y_rep = Kr * ( (1/P_q) - (1/d_min) ) * (1/P_q**2) *  (current_y - b_y)
+		else:
+			vel_x_rep = 0
+			vel_y_rep = 0
 
 		# Campo potencial final
 		vel_x = vel_x_att + vel_x_rep
@@ -117,6 +121,21 @@ class RosiCmdVelClass():
 		self.pos_x  = data.position.x
 		self.pos_y = data.position.y
 		self.angle = euler_angles[2] # Apenas o angulo de Euler no eixo z interessa
+
+	def callback_hok(self, data):
+
+
+		borda_x = data.reading[0::3]
+		borda_y = data.reading[1::3]
+		borda_z = data.reading[2::3]; min = sqrt( (self.pos_x - borda_x[0])**2 + (self.pos_y - borda_y[0])**2 )
+
+		for i in range(len(borda_x)):
+
+			if min > sqrt( (self.pos_x - borda_x[i])**2 + (self.pos_y - borda_y[i])**2 ):
+				min = sqrt( (self.pos_x - borda_x[i])**2 + (self.pos_y - borda_y[i])**2 )
+				self.nearest_obstacle_x = borda_x[i]
+				self.nearest_obstacle_y = borda_y[i]
+
 
 # Funcao main
 if __name__ == '__main__':
