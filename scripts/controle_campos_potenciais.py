@@ -69,8 +69,8 @@ class RosiCmdVelClass():
 
 	def calc_vel_from_potential(self, current_x, current_y, current_theta, x_goal, y_goal):
 		# Campo potencial atrativo
-		Ka = 1
-		d_max = 4
+		Ka = 0.1
+		d_max = 5
 		Pf_q = sqrt( (x_goal - current_x)**2 + (y_goal - current_y)**2 )
 
 		if Pf_q <= d_max:
@@ -86,8 +86,8 @@ class RosiCmdVelClass():
 		b_x = self.nearest_obstacle_x
 		b_y = self.nearest_obstacle_y
 
-		print('Nearest: ', b_x, b_y)
-		Kr = 1
+		# print('Nearest: ', b_x, b_y)
+		Kr = 0.2
 		d_min = 3
 		P_q = sqrt( (current_x - b_x)**2 + (current_y - b_y)**2 )
 
@@ -124,23 +124,20 @@ class RosiCmdVelClass():
 
 	def callback_hok(self, data):
 
-
 		borda_x = data.reading[0::3]
 		borda_y = data.reading[1::3]
 		borda_z = data.reading[2::3]
 
 		try:
-
+			#Se existir dados do Hokuyo
 			min = sqrt( (self.pos_x - borda_x[0])**2 + (self.pos_y - borda_y[0])**2 )
-
 			for i in range(len(borda_x)):
-
 				if min > sqrt( (self.pos_x - borda_x[i])**2 + (self.pos_y - borda_y[i])**2 ):
 					min = sqrt( (self.pos_x - borda_x[i])**2 + (self.pos_y - borda_y[i])**2 )
 					self.nearest_obstacle_x = borda_x[i]
 					self.nearest_obstacle_y = borda_y[i]
-
 		except:
+			#Senao
 			min = 0
 			self.nearest_obstacle_x = self.pos_x + 100
 			self.nearest_obstacle_y = self.pos_y + 100

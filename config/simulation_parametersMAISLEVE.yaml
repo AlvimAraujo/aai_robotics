@@ -24,4 +24,4 @@
   # Hokuyo drawing lines
   # enable it for seeing hokuyo lines
   # possible values: true, false.
-  hokuyo_lines: false
+  hokuyo_lines: true

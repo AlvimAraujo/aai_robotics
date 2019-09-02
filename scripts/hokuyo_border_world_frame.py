@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-#####################################################################
-# CODIGO QUE UNE AS INFORMACOES UTEIS DE POSICAO EM UM UNICO TOPICO #
-#####################################################################
+###########################################################################
+# CODIGO QUE CALCULA AS COORDENADAS DADAS PELO HOKUYO EM RELACAO AO MUNDO #
+###########################################################################
 import rospy
 from rosi_defy.msg import HokuyoReading
 from math import pi, sin, cos
@@ -27,7 +27,7 @@ class RosiPoseClass():
         node_sleep_rate = rospy.Rate(10)
 
         # Mensagem de inicializacao
-        rospy.loginfo('hokuyo world frame iniciado')
+        rospy.loginfo('hokuyo in world frame iniciado')
 
         # Loop principal, responsavel pelos procedimentos chaves do programa
         while not rospy.is_shutdown():
@@ -41,12 +41,6 @@ class RosiPoseClass():
         borda_x = data.reading[0::3]
         borda_y = data.reading[1::3]
         borda_z = data.reading[2::3]
-
-
-        # x_world = list()
-        # y_world = list()
-        # z_world = list()
-
         d_x = self.pos_x
         d_y = self.pos_y
         d_z = self.pos_z
@@ -54,18 +48,14 @@ class RosiPoseClass():
         self.data = list()
 
         for i in range(len(borda_x)):
+            # Angulo entre o hokuyo e o robo
+            #p0 = R01p1 + d01 Transformacao Homogenea
             x_world = [cos(self.angle + pi/2)*borda_x[i] - sin(self.angle + pi/2)*borda_y[i] + d_x]
             y_world = [sin(self.angle + pi/2)*borda_x[i] + cos(self.angle + pi/2)*borda_y[i] + d_y]
             z_world = [borda_z[i] + d_z]
-            # self.data += [x_world, y_world, z_world]
             self.data += x_world
             self.data += y_world
             self.data += z_world
-
-        #p0 = R01p1 + d01
-        #Rz = [c -s 0; s c 0; 0 0 1]
-
-        # self.data.reading = data.reading
 
     def callback_pose(self, data):
 
@@ -81,7 +71,6 @@ class RosiPoseClass():
         self.pos_x  = data.position.x
         self.pos_y = data.position.y
         self.pos_z = data.position.z
-
 
 
 # Funcao main
