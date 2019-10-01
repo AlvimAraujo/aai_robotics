@@ -44,13 +44,13 @@ class RosiNodeClass():
             node_sleep_rate.sleep()
     
     # Funcao de callback
-    #def callback_joints(self):
-    #    self.joint1 = 0
-    #    self.joint2 = 0
-    #    self.joint3 = 0
-    #    self.joint4 = 0
-    #    self.joint5 = 0
-    #    self.joint6 = 0
+    def callback_joints(self):
+        self.joint1 = 0
+        self.joint2 = 0
+        self.joint3 = 0
+        self.joint4 = 0
+        self.joint5 = 0
+        self.joint6 = 0
 
 
 if __name__ == '__main__':
