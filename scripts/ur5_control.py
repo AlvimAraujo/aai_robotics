@@ -9,6 +9,7 @@
 import rospy
 from rosi_defy.msg import ManipulatorJoints
 from geometry_msgs.msg import TwistStamped
+from math import pi
 
 class RosiNodeClass():
 
@@ -44,13 +45,18 @@ class RosiNodeClass():
             node_sleep_rate.sleep()
     
     # Funcao de callback
-    def callback_joints(self):
-        self.joint1 = 0
-        self.joint2 = 0
-        self.joint3 = 0
-        self.joint4 = 0
-        self.joint5 = 0
-        self.joint6 = 0
+    def callback_joints(self, data):
+        self.err = 0.05
+
+        self.desired_joint1 = 3*pi/2
+        self.desired_joint2 = 0
+        self.desired_joint3 = 0
+        self.desired_joint4 = 0
+        self.desired_joint5 = 0
+        self.desired_joint6 = 0
+
+        if(abs(self.desired_joint1 - data.joint_variable[0]) > self.err):
+            self.joint1 = self.desired_joint1
 
 
 if __name__ == '__main__':
