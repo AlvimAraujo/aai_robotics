@@ -46,8 +46,9 @@ class RosiNodeClass():
 
     # Funcao de callback
     def callback_joints(self, data):
+        # Erro permitido
         self.err = 0.05
-
+        # Posicao desejada das juntas
         self.desired_joint1 = 0
         self.desired_joint2 = 0
         self.desired_joint3 = 0
@@ -55,17 +56,17 @@ class RosiNodeClass():
         self.desired_joint5 = 0
         self.desired_joint6 = 0
 
-        if(abs(self.desired_joint1 - data.joint_variable[0]) > self.err):
+        if(abs(self.desired_joint1 - data.joint_variable[0]) >= self.err):
             self.joint1 = self.desired_joint1
-        if(abs(self.desired_joint2 - data.joint_variable[1]) > self.err):
+        if(abs(self.desired_joint2 - data.joint_variable[1]) >= self.err):
             self.joint2 = self.desired_joint2
-        if(abs(self.desired_joint3 - data.joint_variable[2]) > self.err):
+        if(abs(self.desired_joint3 - data.joint_variable[2]) >= self.err):
             self.joint3 = self.desired_joint3
-        if(abs(self.desired_joint4 - data.joint_variable[3]) > self.err):
+        if(abs(self.desired_joint4 - data.joint_variable[3]) >= self.err):
             self.joint4 = self.desired_joint4
-        if(abs(self.desired_joint5 - data.joint_variable[4]) > self.err):
+        if(abs(self.desired_joint5 - data.joint_variable[4]) >= self.err):
             self.joint5 = self.desired_joint5
-        if(abs(self.desired_joint6 - data.joint_variable[5]) > self.err):
+        if(abs(self.desired_joint6 - data.joint_variable[5]) >= self.err):
             self.joint6 = self.desired_joint6
 
 
