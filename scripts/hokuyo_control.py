@@ -4,7 +4,7 @@
 ###########################################################################
 import rospy
 from rosi_defy.msg import HokuyoReading
-from math import pi, sin, cos
+from math import pi, sin, cos, sqrt
 from geometry_msgs.msg import Pose
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
 
@@ -17,11 +17,14 @@ class RosiPoseClass():
         self.pos_x = 0.1
         self.pos_y = 0.1
         self.pos_z = 0.1
+        self.near_x = 0.1
+        self.near_y = 0.1
+        self.near_z = 0.1
 
         # Nos em que vai se subscrever e publicar
-        self.pub_hok = rospy.Publisher('/aai_rosi_border_obstacle', HokuyoReading, queue_size=1)
+        #self.pub_hok = rospy.Publisher('/aai_rosi_border_obstacle', HokuyoReading, queue_size=1)
         self.sub_hokuyo = rospy.Subscriber('/sensor/hokuyo', HokuyoReading, self.callback_hokuyo)
-        self.sub_pose = rospy.Subscriber('/aai_rosi_pose', Pose, self.callback_pose)
+        #self.sub_pose = rospy.Subscriber('/aai_rosi_pose', Pose, self.callback_pose)
 
         # Frequencia de publicacao
         node_sleep_rate = rospy.Rate(10)
@@ -32,9 +35,11 @@ class RosiPoseClass():
         # Loop principal, responsavel pelos procedimentos chaves do programa
         while not rospy.is_shutdown():
             #Publicacao
-            msg = HokuyoReading()
-            msg.reading = self.data
-            self.pub_hok.publish(msg)
+            #msg = HokuyoReading()
+            #msg.reading = self.data
+            #self.pub_hok.publish(msg)
+            print(self.near_x, self.near_y, self.near_z)
+            pass
 
     # Callback do sensor gps
     def callback_hokuyo(self, data):
@@ -56,32 +61,34 @@ class RosiPoseClass():
                 near_y = d_y
                 near_z = d_z
 
-        self.data = list()
+        self.near_x = near_x
+        self.near_y = near_y
+        self.near_z = near_z
 
-        for i in range(len(borda_x)):
-            # Angulo entre o hokuyo e o robo
-            #p0 = R01p1 + d01 Transformacao Homogenea
-            x_world = [cos(self.angle + pi/2)*borda_x[i] - sin(self.angle + pi/2)*borda_y[i] + d_x]
-            y_world = [sin(self.angle + pi/2)*borda_x[i] + cos(self.angle + pi/2)*borda_y[i] + d_y]
-            z_world = [borda_z[i] + d_z]
-            self.data += x_world
-            self.data += y_world
-            self.data += z_world
+        # for i in range(len(borda_x)):
+        #     # Angulo entre o hokuyo e o robo
+        #     #p0 = R01p1 + d01 Transformacao Homogenea
+        #     x_world = [cos(self.angle + pi/2)*borda_x[i] - sin(self.angle + pi/2)*borda_y[i] + d_x]
+        #     y_world = [sin(self.angle + pi/2)*borda_x[i] + cos(self.angle + pi/2)*borda_y[i] + d_y]
+        #     z_world = [borda_z[i] + d_z]
+        #     self.data += x_world
+        #     self.data += y_world
+        #     self.data += z_world
 
-    def callback_pose(self, data):
-
-        q_x = data.orientation.x
-        q_y = data.orientation.y
-        q_z = data.orientation.z
-        q_w = data.orientation.w
-		# Orientacao de quaternios para angulos de Euler
-        euler_angles = euler_from_quaternion([q_x, q_y, q_z, q_w])
-
-        self.angle = euler_angles[2]
-
-        self.pos_x  = data.position.x
-        self.pos_y = data.position.y
-        self.pos_z = data.position.z
+    # def callback_pose(self, data):
+    #
+    #     q_x = data.orientation.x
+    #     q_y = data.orientation.y
+    #     q_z = data.orientation.z
+    #     q_w = data.orientation.w
+	# 	# Orientacao de quaternios para angulos de Euler
+    #     euler_angles = euler_from_quaternion([q_x, q_y, q_z, q_w])
+    #
+    #     self.angle = euler_angles[2]
+    #
+    #     self.pos_x  = data.position.x
+    #     self.pos_y = data.position.y
+    #     self.pos_z = data.position.z
 
 
 # Funcao main
