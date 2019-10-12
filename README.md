@@ -26,12 +26,25 @@ v1_rosi_challenge.launch --> Usa alguns nós para fazer com que o robô complete
 v2_rosi_challenge.launch --> Similar ao v1, no entando, o robô é capaz de ir e voltar em uma parte do mapa por tempo infinito.
 
 v3_rosi_challenge.launch --> Similar ao v2, no entando, pelo sensor hokuyo, o braço ur5 sempre vira para o TC, de modo que a coleta é sempre realizada, independente da orientação do robô. OBS: Há alguns casos excepcionais para serem tratados.
-![Alt text](image/v3_rqt_graph.png?raw=true "Title")
+![Relação entre nós e tópcios](images/v3_rqt_graph.png?raw=true "v3_rqt_graph")
 
-## Nós ##
+## Nodes ##
 
 
-## Tópicos Criados Pelos Desenvolvedores ##
+## Topics ##
 Todos os tópicos criados pelos desenvolvedores começam com o prefixo aai.
 aai_rosi_pose -->
 aai_rosi_cmd_vel -->
+
+## Equipe ##
+Álvaro Rodrigues Araújo
+Arthur Henrique Dias Nunes
+Israel Filipe Silva Amaral
+
+AAI Robotics - Universidade Federal de Minas Gerais
+
+Apostila de Simulações Robóticas(em desenvolvimento): https://pt.overleaf.com/read/mmvbybzdntcd
+
+![Equipe](images/equipe.jpeg?raw=true "Equipe")
+![Logo](images/logo.jpeg?raw=true "Logo")
+
