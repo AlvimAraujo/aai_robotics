@@ -32,14 +32,18 @@ v3_rosi_challenge.launch --> Similar ao v2, no entando, pelo sensor hokuyo, o br
 
 
 ## Topics ##
-Todos os tópicos criados pelos desenvolvedores começam com o prefixo aai.
+Todos os tópicos criados pelos desenvolvedores começam com o prefixo aai, e têm a finalidade de facilitar as stream de dados e filtrar aqueles que são úteis.
+
 aai_rosi_pose -->
+
 aai_rosi_cmd_vel -->
 
 ## Equipe ##
-Álvaro Rodrigues Araújo
-Arthur Henrique Dias Nunes
-Israel Filipe Silva Amaral
+Álvaro Rodrigues Araújo;
+
+Arthur Henrique Dias Nunes;
+
+Israel Filipe Silva Amaral.
 
 AAI Robotics - Universidade Federal de Minas Gerais
 
