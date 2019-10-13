@@ -10,12 +10,24 @@ Este pacote foi feito com ROS Kinetic Kame e Ubuntu 16.04 LTS, enquanto que o de
 A versão do V-REP utilizada é a mesma que a do desafio (3.6.2, PRO EDU), bem como a comunicação vrep-ros-interface. 
 Até então, não houveram conflitos de versões do pacote.
 
+Todos os arquivos com o prefixo "old_" não são mais utilizados e ainda estão no repositório apenas por segurança, ignore-os.
+
+## Instruções ##
+0) Caso não tenha, instale a biblioteca Numpy com o comando $ pip install numpy
+1) Baixe o pacote ROS e coloque-o na workspace desejada.
+2) Compile o pacote usando a ferramenta catkin build. (Até o momendo, não estão sendo usados nós feitos em c++).
+3) Certifique que a workspace está devidademente sourceada. ($ source devel/setup.bash).
+4) Execute a última versão do launch. A versão é indicada pelo prefixo vX no nome, onde X é a versão. Portanto, a última versão do launch é o que tiver o nome "vX_rosi_challenge.launch", com o maior valor no lugar do X.
+
+
 ## Launchs ##
 Os launchs que contêm as realizações dos desafios são os nomeados como "vX_rosi_challenge.launch". O que deve ser executado é o launch com o maior número no lugar do X, isto é, a última versão do launch que controla o robô para realizar as tarefas do desafio.
 
 Abaixo segue a descrição do que fazem e quais as mudanças em cada launch disponível no pacote.
 
 rosi_teleop.launch --> Movimenta o robô pelo teclado.
+
+rosi_teleop_v2.launch --> Movimenta o robô pelo teclado enquanto que mostra em abas separadas o que o kinect está visualizando enquanto cores (RGB) e enquanto profundidade (DEPTH).
 
 rosi_control1.launch --> Recebe do usuário uma coordenada gps (x, y) e manda o robô para ela.
 
@@ -29,14 +41,14 @@ v3_rosi_challenge.launch --> Similar ao v2, no entando, pelo sensor hokuyo, o br
 ![Relação entre nós e tópcios](images/v3_rqt_graph.png?raw=true "v3_rqt_graph")
 
 ## Nodes ##
-
+Sugere-se abrir o nó de interesse para entender a implementação.
 
 ## Topics ##
 Todos os tópicos criados pelos desenvolvedores começam com o prefixo aai, e têm a finalidade de facilitar as stream de dados e filtrar aqueles que são úteis.
 
-aai_rosi_pose -->
+aai_rosi_pose --> Tópico que contém a posição (x,y) do robô e sua orientação.
 
-aai_rosi_cmd_vel -->
+aai_rosi_cmd_vel --> Tópico que contém os comandos de velocidade do robô divididos entre velocidade linear e angular.
 
 ## Equipe ##
 Álvaro Rodrigues Araújo;
