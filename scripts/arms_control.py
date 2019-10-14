@@ -64,14 +64,14 @@ class RosiNodeClass():
 
         # Rotina de subida da escada
         self.desired_front = pi/2
-        if(abs(data.movement_array[0].joint_var - pi/2) >= self.err):
+        if(abs(data.movement_array[0].joint_var - pi/2) <= self.err):
             self.desired_back = 3*pi/2
-        if(abs(data.movement_array[0].joint_var - pi/2) >= self.err and abs(data.movement_array[1].joint_var - 3*pi/2) >= self.err):
+        if(abs(data.movement_array[0].joint_var - pi/2) <= self.err and abs(data.movement_array[1].joint_var - 3*pi/2) <= self.err):
             self.desired_front = pi
             self.desired_back = 0
-        if(abs(data.movement_array[0].joint_var - pi) >= self.err):
+        if(abs(data.movement_array[0].joint_var - pi) <= self.err):
             self.desired_front = 0
-        if(abs(data.movement_array[0].joint_var - pi) >= self.err and abs(data.movement_array[1].joint_var - 0) >= self.err):
+        if(abs(data.movement_array[0].joint_var - pi) <= self.err and abs(data.movement_array[1].joint_var - 0) <= self.err):
             self.desired_back = pi
             self.desired_front = pi/2
 
