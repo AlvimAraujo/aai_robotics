@@ -40,6 +40,9 @@ v2_rosi_challenge.launch --> Similar ao v1, no entando, o robô é capaz de ir e
 v3_rosi_challenge.launch --> Similar ao v2, no entando, pelo sensor hokuyo, o braço ur5 sempre vira para o TC, de modo que a coleta é sempre realizada, independente da orientação do robô. OBS: Há alguns casos excepcionais para serem tratados.
 ![Relação entre nós e tópcios](images/v3_rqt_graph.png?raw=true "v3_rqt_graph")
 
+v4_rosi_challenge.launch --> Controla o robô para que de a volta na esteira, fazendo sempre a coleta, controlada pelo hokuyo, e desviando de obstáculos, controlado pelo kinect. 
+![Relação entre nós e tópcios](images/v4_rqt_graph.png?raw=true "v4_rqt_graph")
+
 ## Nodes ##
 Sugere-se abrir o nó de interesse para entender a implementação.
 
