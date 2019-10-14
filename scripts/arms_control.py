@@ -17,9 +17,6 @@ class RosiNodeClass():
         # Representacao da posicao desejada dos bracos
         self.desired_front = 0
         self.desired_back = 0
-        # Atalhos para informar que deve mandar velocidade 0 quando nao houver comandos de velocidade
-        self.last = 0
-        self.TIME_OUT = 0.1
 
         # Mensagem de inicializacao
         rospy.loginfo('arms_control iniciado')
@@ -45,16 +42,11 @@ class RosiNodeClass():
                 traction_command = RosiMovement()
                 # ID da roda
                 traction_command.nodeID = i+1
-                # Publicar 0 caso nao haja comandos de velociade
-
-                if rospy.get_rostime().to_sec() - self.last >= self.TIME_OUT:
-                    traction_command.joint_var = 0
+                # Separa as rodas do lado direito do esquerdo
+                if i == 0 or i == 2:
+                    traction_command.joint_var = self.omega_front
                 else:
-                    # Separa as rodas do lado direito do esquerdo
-                    if i == 0 or i == 2:
-                        traction_command.joint_var = self.omega_front
-                    else:
-                        traction_command.joint_var = self.omega_back
+                    traction_command.joint_var = self.omega_back
                 # Adiciona o comando ao comando de tracao final
                 traction_command_list.movement_array.append(traction_command)
 
@@ -67,34 +59,36 @@ class RosiNodeClass():
     # Funcao de callback
     def callback_arms(self, data):
         
-        # Ganho da velocidade
-        self.G = 100
         # Erro permitido
         self.err = 0.05
 
         # Rotina de subida da escada
         self.desired_front = pi/2
-        if(abs(data.joint_var[0] - pi/2) >= self.err):
+        if(abs(data.movement_array[0].joint_var - pi/2) >= self.err):
             self.desired_back = 3*pi/2
-        if(abs(data.joint_var[0] - pi/2) >= self.err and abs(data.joint_var[1] - 3*pi/2) >= self.err):
+        if(abs(data.movement_array[0].joint_var - pi/2) >= self.err and abs(data.movement_array[1].joint_var - 3*pi/2) >= self.err):
             self.desired_front = pi
             self.desired_back = 0
-        if(abs(data.joint_var[0] - pi) >= self.err):
+        if(abs(data.movement_array[0].joint_var - pi) >= self.err):
             self.desired_front = 0
-        if(abs(data.joint_var[0] - pi) >= self.err and abs(data.joint_var[1] - 0) >= self.err):
+        if(abs(data.movement_array[0].joint_var - pi) >= self.err and abs(data.movement_array[1].joint_var - 0) >= self.err):
             self.desired_back = pi
             self.desired_front = pi/2
 
-        if abs(data.joint_var[0] - self.desired_front) >= self.err:
+        if abs(data.movement_array[0].joint_var - self.desired_front) >= self.err:
             self.omega_front = 0.52
         else:
             self.omega_front = 0
-        if abs(data.joint_var[1] - self.desired_back) >= self.err:
+        if abs(data.movement_array[1].joint_var - self.desired_back) >= self.err:
             self.omega_back = 0.52
         else:
             self.omega_back = 0
 
-        self.last = rospy.get_rostime().to_sec()
+        #print(self.omega_front)
+        #print(self.omega_back)
+        #print(data.movement_array[1].joint_var)
+        #print(abs(data.movement_array[0].joint_var - pi/2)
+
 
 # Funcao principal
 if __name__ == '__main__':
