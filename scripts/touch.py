@@ -22,8 +22,9 @@ class RosiNodeClass():
         # Publica em jointsPosTargetCommand
         self.pub_jointsPos = rospy.Publisher('/ur5/jointsPosTargetCommand',  ManipulatorJoints, queue_size=1)
 
-        # Subscreve em jointsPositionCurrentState
+        # Subscreve em jointsPositionCurrentState e forceTorqueSensorOutput
         self.sub_joints = rospy.Subscriber('/ur5/jointsPositionCurrentState', ManipulatorJoints, self.callback_joints)
+        self.sub_force = rospy.Subscriber('/ur5/forceTorqueSensorOutput', TwistStamped, self.callback_force)
 
         # Define a frequencia de publicacao
         node_sleep_rate = rospy.Rate(10)
