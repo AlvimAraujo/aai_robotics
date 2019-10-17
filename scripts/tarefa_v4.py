@@ -82,7 +82,7 @@ class RosiCmdVelClass():
 			self.state = 1
 			self.Err = 0.2
 			self.Kp = 0.3
-			Pontos = [(-38, 2), (-41.5, 2)]
+			Pontos = [(-38, 2), (-41.5, 1.8)]
 
 			for (x_goal, y_goal) in Pontos:
 				vel_msg = Twist()
@@ -98,7 +98,7 @@ class RosiCmdVelClass():
 
 			self.state = 2
 
-			Pontos = [(-44, 1.9), (-45, 1.9), (-47, 1.9)]
+			Pontos = [(-44, 1.8), (-45, 1.8), (-47, 1.8)]
 			for (x_goal, y_goal) in Pontos:
 				vel_msg = Twist()
 				while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
@@ -113,7 +113,7 @@ class RosiCmdVelClass():
 
 			self.state = 3
 			self.d *= -1
-			Pontos = [(-45, 1.9), (-43, 1.9), (-41, 1.9), (-39, 2.5), (-37, 3)]
+			Pontos = [(-45, 1.8), (-43, 1.8), (-41, 1.8), (-39, 2.5), (-37, 3)]
 			for (x_goal, y_goal) in Pontos:
 				vel_msg = Twist()
 				while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:

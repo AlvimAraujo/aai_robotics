@@ -74,8 +74,8 @@ class RosiNodeClass():
             self.omega_back = 0
 
         if self.state == 1:
-            self.desired_front = pi/2
-            self.desired_back = pi/2
+            self.desired_front = pi/3
+            self.desired_back = pi/3
 
             if abs(data.movement_array[0].joint_var - self.desired_front) >= self.err:
                 self.omega_front = -0.52
@@ -104,7 +104,7 @@ class RosiNodeClass():
                 self.state = 3
                 #print('certim atras')
 
-        if self.state == 3 or self.state == 3.1:
+        if self.state == 3:
             self.desired_front = -pi/6
             self.desired_back = pi/6
 
@@ -121,7 +121,7 @@ class RosiNodeClass():
                 #print('certim atras')
 
         if self.state == 4:
-            self.desired_front = -pi/8
+            self.desired_front = -pi/12
             self.desired_back = pi/8
 
             if abs(data.movement_array[0].joint_var - self.desired_front) >= self.err:
@@ -151,14 +151,7 @@ class RosiNodeClass():
                 self.state = 6
 
         if self.state == 6:
-            #self.desired_front = -pi/8
-            self.desired_back = -pi/4
-
-            #if abs(data.movement_array[0].joint_var - self.desired_front) >= self.err:
-            #    self.omega_front = -0.52
-            #else:
-                #self.omega_front = 0
-                #print('certim na frente')
+            self.desired_back = -0.5
             if abs(data.movement_array[3].joint_var - self.desired_back) >= self.err:
                 self.omega_back = -0.52
                 self.omega_front = 0
@@ -166,36 +159,35 @@ class RosiNodeClass():
                 self.omega_back = 0
                 self.state = 7
 
+
         if self.state == 7:
-            self.desired_back = -pi/6
-
-            if abs(data.movement_array[3].joint_var - self.desired_back) >= self.err:
-                self.omega_back = 0.30
-                self.omega_front = 0
-            else:
-                self.omega_back = 0
-                self.state = 8
-
-
-        if self.state == 8:
-            self.desired_back = 0
-
-            if abs(data.movement_array[3].joint_var - self.desired_back) >= self.err:
-                self.omega_back = 0.10
-                self.omega_front = 0
-            else:
-                self.omega_back = 0
-                self.state = 9
-
-        if self.state == 9:
+            self.desired_back = -pi/4
             self.desired_front = 0
 
             if abs(data.movement_array[0].joint_var - self.desired_front) >= self.err:
                 self.omega_front = -0.52
-                self.omega_back = 0
             else:
                 self.omega_front = 0
-                #print('certim na frente')
+
+            if abs(data.movement_array[3].joint_var - self.desired_back) >= self.err:
+                self.omega_back = -0.52
+            else:
+                self.omega_back = 0
+                self.state = 8
+
+        if self.state == 8:
+            self.desired_back = 0
+            self.desired_front = -pi/8
+
+            if abs(data.movement_array[0].joint_var - self.desired_front) >= self.err:
+                self.omega_front = 0.52
+            else:
+                self.omega_front = 0
+
+            if abs(data.movement_array[3].joint_var - self.desired_back) >= self.err:
+                self.omega_back = 0.52
+            else:
+                self.omega_back = 0
                 self.state = 10
 
     def callback_pose(self, data):
@@ -204,7 +196,7 @@ class RosiNodeClass():
         self.pos_x  = data.position.x
         self.pos_y = data.position.y
 
-        Pontos = [(0,0), (-38.2, 2), (-41.5, 2)]
+        Pontos = [(0,0), (-38.2, 2), (-42, 1.8)]
 
         (x_goal, y_goal) = Pontos[1]
         if abs(self.pos_x - x_goal) < Err_pos and abs(self.pos_y - y_goal) < Err_pos:
