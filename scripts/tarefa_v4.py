@@ -62,28 +62,27 @@ class RosiCmdVelClass():
 		rospy.loginfo('campo potencial iniciado')
 
 		Pontos = list()
-		Pontos = [(0, 2.5), (-15, 2.5), (-30, 2.5), (-35, 3)]
-		# for i in range(15+1):
-		# 	Pontos += [(-i, 2.5)]
+		Pontos = [(0, 2.5), (-15, 2.5), (-30, 2.5), (-40, 3), (-55, 3), (-55, -4), (-40, -3.5), (-30, -3.5), (-15, -3.5), (0, -3.5), (0, 2.5), (-15, 2.5), (-30, 2.5), (-35, 2.5)]
 
 		# Loop principal em que manda as velocidades para o robo ate que ele chegue nas proximidades do ponto
 		while not rospy.is_shutdown():
-			for (x_goal, y_goal) in Pontos:
-				vel_msg = Twist()
-				while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
+			# for (x_goal, y_goal) in Pontos:
+			# 	vel_msg = Twist()
+			# 	while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
+			#
+			# 		[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
+			#
+			# 		vel_msg.linear.x = V
+			# 		vel_msg.angular.z = W
+			#
+			# 		self.pub_cmd_vel.publish(vel_msg)
+			# 		node_sleep_rate.sleep()
 
-					[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
-
-					vel_msg.linear.x = V
-					vel_msg.angular.z = W
-
-					self.pub_cmd_vel.publish(vel_msg)
-					node_sleep_rate.sleep()
 
 			self.state = 1
 			self.Err = 0.2
 			self.Kp = 0.3
-			Pontos = [(-38, 2), (-41.5, 1.77)]
+			Pontos = [(-38, 2), (-41.5, 2)]
 
 			for (x_goal, y_goal) in Pontos:
 				vel_msg = Twist()
@@ -98,29 +97,35 @@ class RosiCmdVelClass():
 					node_sleep_rate.sleep()
 
 			self.state = 2
-			[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
 
-			vel_msg.linear.x = V
-			vel_msg.angular.z = W
+			Pontos = [(-44, 1.9), (-45, 1.9), (-47, 1.9)]
+			for (x_goal, y_goal) in Pontos:
+				vel_msg = Twist()
+				while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
 
-			self.pub_cmd_vel.publish(vel_msg)
-			node_sleep_rate.sleep()
+					[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
 
-			# self.Err = 0.15
-			# self.Kp = 0.4
-			# Pontos = [(-38, 2), (-39, 1.9)]
-			#
-			# for (x_goal, y_goal) in Pontos:
-			# 	vel_msg = Twist()
-			# 	while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
-			#
-			# 		[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
-			#
-			# 		vel_msg.linear.x = V
-			# 		vel_msg.angular.z = W
-			#
-			# 		self.pub_cmd_vel.publish(vel_msg)
-			# 		node_sleep_rate.sleep()
+					vel_msg.linear.x = V
+					vel_msg.angular.z = W
+
+					self.pub_cmd_vel.publish(vel_msg)
+					node_sleep_rate.sleep()
+
+			self.state = 3
+			self.d *= -1
+			Pontos = [(-45, 1.9), (-43, 1.9), (-41, 1.9), (-39, 2.5), (-37, 3)]
+			for (x_goal, y_goal) in Pontos:
+				vel_msg = Twist()
+				while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
+
+					[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
+
+					vel_msg.linear.x = V
+					vel_msg.angular.z = W
+
+					self.pub_cmd_vel.publish(vel_msg)
+					node_sleep_rate.sleep()
+			self.d *= -1
 
 			break
 
@@ -133,12 +138,30 @@ class RosiCmdVelClass():
 		if self.state == 0:
 			Ka = 1
 			d_max = 3
+
+			Kr = 20
+			d_min = 3.5
 		if self.state == 1:
 			Ka = 2
 			d_max = 3
+
+			Kr = 0
+			d_min = 3
 		if self.state == 2:
-			Ka = 0
+			Ka = 1.5
 			d_max = 2
+
+			Kr = 0
+			d_min = 3
+
+		if self.state == 3:
+			Ka = 1
+			d_max = 1.5
+
+			Kr = 1
+			d_min = 1.5
+
+
 		Pf_q = sqrt( (x_goal - current_x)**2 + (y_goal - current_y)**2 )
 
 		if Pf_q <= d_max:
@@ -152,15 +175,7 @@ class RosiCmdVelClass():
 		# Campo potencial repulsivo
 		b_x = current_x + self.xd
 		b_y = current_y + self.yd
-		if self.state == 0:
-			Kr = 20
-			d_min = 3.5
-		if self.state == 1:
-			Kr = 0
-			d_min = 3
-		if self.state == 2:
-			Kr = 0
-			d_min = 3
+
 		P_q = sqrt( (current_x - b_x)**2 + (current_y - b_y)**2 )
 
 		if P_q <= d_min:
