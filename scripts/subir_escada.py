@@ -64,7 +64,7 @@ class RosiNodeClass():
     # Funcao de callback
     def callback_arms(self, data):
 
-        print('escada estado = ' + str(self.state))
+        #print('escada estado = ' + str(self.state))
 
         # Erro permitido
         self.err = 0.1
