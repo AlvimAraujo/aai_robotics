@@ -16,6 +16,9 @@
 	<!-- No que mostra a imagem DEPTH do kinect-->
 	<node name="kinect_depth_show" pkg="aai_robotics" type="kinect_depth_show.py" output = "screen" respawn="true" />
 
+	<!-- No que mostra a imagem DEPTH do kinect-->
+	<node name="stairs" pkg="aai_robotics" type="subir_escada.py" output = "screen" respawn="true" />
+
 	<!-- Parametros da simulacao para rodar mais leve-->
 	<rosparam command="load" file="$(find aai_robotics)/config/simulation_parametersMAISLEVE.yaml" />
 
