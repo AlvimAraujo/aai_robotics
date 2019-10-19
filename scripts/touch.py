@@ -96,7 +96,7 @@ class RosiNodeClass():
         self.actual5 = data.joint_variable[4]
         self.actual6 = data.joint_variable[5]
         
-        # Checa se o toque já ocorreu
+        # Checa se o toque ja ocorreu
         if(self.forceFlag == 1):
             self.touch = 1
 
