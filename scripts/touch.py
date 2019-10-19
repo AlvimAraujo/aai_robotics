@@ -162,10 +162,10 @@ class RosiNodeClass():
             print('estado 5')
             self.state = 5
             self.desired_joint2 = 0.0
-            if(abs(self.actual2 - 0) >= self.err):
+            if(abs(self.actual2 - 0) <= self.err):
                 self.desired_joint3 = 0.0
                 self.desired_joint4 = 0.0
-            if(abs(self.actual3 - 0) >= self.err and abs(self.actual4 - 0) >= self.err):
+            if(abs(self.actual3 - 0) <= self.err and abs(self.actual4 - 0) <= self.err):
                 self.desired_joint1 = 0.0
                 self.desired_joint5 = 0.0
 
