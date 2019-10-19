@@ -63,6 +63,7 @@ class RosiCmdVelClass():
 
 		Pontos = list()
 		Pontos = [(0, 2.5), (-15, 2.5), (-30, 2.5), (-40, 3), (-55, 3), (-55, -4), (-40, -3.5), (-30, -3.5), (-15, -3.5), (0, -3.5), (0, 2.5), (-15, 2.5), (-30, 2.5), (-35, 2.5)]
+
 		# Pontos = [(0, 3), (-2, 2), (-3, 2)] #toque
 
 		# Loop principal em que manda as velocidades para o robo ate que ele chegue nas proximidades do ponto
@@ -118,7 +119,7 @@ class RosiCmdVelClass():
 
 			self.state = 2
 
-			Pontos = [(-43, 1.9), (-45, 1.85), (-47, 1.85)]
+			Pontos = [(-43, 1.9), (-45, 1.85), (-48, 1.85)]
 			for (x_goal, y_goal) in Pontos:
 				vel_msg = Twist()
 				while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
@@ -133,7 +134,7 @@ class RosiCmdVelClass():
 
 			self.state = 3
 			self.d *= -1
-			Pontos = [(-45, 1.85), (-43, 1.85), (-41, 1.85), (-39, 2.5), (-37, 3)]
+			Pontos = [(-45, 1.85), (-43, 1.85), (-41, 1.85), (-39, 2.5), (-37, 3.5), (-32, 4)]
 			for (x_goal, y_goal) in Pontos:
 				vel_msg = Twist()
 				while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
@@ -145,7 +146,33 @@ class RosiCmdVelClass():
 
 					self.pub_cmd_vel.publish(vel_msg)
 					node_sleep_rate.sleep()
+
 			self.d *= -1
+			self.state = 0
+			Pontos = [(-29, 4), (-28, 3.5), (-29, 3), (-30, 2), (-32, 1.8)]
+			for (x_goal, y_goal) in Pontos:
+				vel_msg = Twist()
+				while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
+
+					[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
+
+					vel_msg.linear.x = V
+					vel_msg.angular.z = W
+
+					self.pub_cmd_vel.publish(vel_msg)
+					node_sleep_rate.sleep()
+
+
+
+			vel_msg.linear.x = 0
+			vel_msg.angular.z = 0
+
+			self.pub_cmd_vel.publish(vel_msg)
+
+			print('*'*15)
+			print('------FIM------')
+			print(' AAI Robotics')
+			print('*'*15)
 
 			break
 

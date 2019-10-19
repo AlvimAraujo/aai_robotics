@@ -31,8 +31,12 @@ class image_converter:
     depth_array = np.array(cv_image, dtype=np.float32)
     cv2.normalize(depth_array, depth_array, 0, 1, cv2.NORM_MINMAX)
     #Visualizacao da imagem
-    cv2.imshow("Kinect Depth", depth_array)
-    cv2.waitKey(3)
+    if rospy.get_param('mostar_kinect_depth'):
+        cv2.imshow("Kinect Depth", depth_array)
+        cv2.waitKey(3)
+    else:
+        cv2.destroyAllWindows()
+
 
     try:
         # Imagem convertida
@@ -47,7 +51,7 @@ def main(args):
     rospy.spin()
   except KeyboardInterrupt:
     print("Shutting down")
-  #cv2.destroyAllWindows()
+  cv2.destroyAllWindows()
 
 if __name__ == '__main__':
     main(sys.argv)
