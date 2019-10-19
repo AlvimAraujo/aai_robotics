@@ -93,7 +93,7 @@ class RosiPoseClass():
             d_y = borda_y[i]
             d_z = borda_z[i]
 
-            if sqrt(d_x**2 + d_y**2) - sqrt(near_x**2 + near_y**2) < 0.5:
+            if sqrt(d_x**2 + d_y**2) - sqrt(near_x**2 + near_y**2) < 0.1:
                 near_x = d_x
                 near_y = d_y
                 near_z = d_z

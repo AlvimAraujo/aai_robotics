@@ -20,7 +20,7 @@ class RosiPoseClass():
         self.orientation_quaternion_w = 0.0
 
         # Nos em que vai se subscrever e publicar
-        self.pub_pose = rospy.Publisher('/aai_rosi_pose', Pose, queue_size=1)
+        self.pub_pose = rospy.Publisher('/aai_rosi_pose', Pose, queue_size=10)
         self.sub_gps = rospy.Subscriber('/sensor/gps', NavSatFix, self.callback_gps)
         self.sub_imu = rospy.Subscriber('/sensor/imu', Imu, self.callback_imu)
 

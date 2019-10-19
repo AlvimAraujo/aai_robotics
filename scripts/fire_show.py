@@ -23,8 +23,10 @@ class image_converter:
 
         self.bridge = CvBridge()
         # No em que vai subscrever a imagem a ser lida
-        self.image_sub = rospy.Subscriber("/sensor/ur5toolCam",Image,self.callback_rgb)
+        self.image_sub = rospy.Subscriber('/sensor/ur5toolCam',Image,self.callback_rgb)
         self.sub_pose = rospy.Subscriber('/aai_rosi_pose', Pose, self.callback_pose)
+
+        self.pub_fire_pose = rospy.Publisher('/aai_fire_pose', Pose, queue_size=1)
             #while not rospy.is_shutdown():
 
     def callback_pose(self, data):
@@ -64,9 +66,14 @@ class image_converter:
         cv2.waitKey(3)
         if int(no_red) > 2000:
             print('*'*10)
-            print('Alerta! Possivel foco de chamas detectado')
+            print('Alerta! Possivel rolo em chamas detectado')
             print('Proximo a (latitude, longitude) = ' + str(self.pos_x) + ' ' + str(self.pos_y))
+            print('Regiao marcada no mapa')
             print('*'*10)
+            FP = Pose()
+            FP.position.x = self.pos_x
+            FP.position.y = self.pos_y
+            self.pub_fire_pose.publish(FP)
 
 
 

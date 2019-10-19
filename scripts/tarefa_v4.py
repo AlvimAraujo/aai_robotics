@@ -63,6 +63,7 @@ class RosiCmdVelClass():
 
 		Pontos = list()
 		Pontos = [(0, 2.5), (-15, 2.5), (-30, 2.5), (-40, 3), (-55, 3), (-55, -4), (-40, -3.5), (-30, -3.5), (-15, -3.5), (0, -3.5), (0, 2.5), (-15, 2.5), (-30, 2.5), (-35, 2.5)]
+		# Pontos = [(0, 3), (-2, 2), (-3, 2)] #toque
 
 		# Loop principal em que manda as velocidades para o robo ate que ele chegue nas proximidades do ponto
 		while not rospy.is_shutdown():
@@ -77,6 +78,25 @@ class RosiCmdVelClass():
 
 					self.pub_cmd_vel.publish(vel_msg)
 					node_sleep_rate.sleep()
+
+			# #Toque
+			# Pontos = [(-9, 1.85)]
+			# self.state = 1
+			# self.Err = 0.2
+			#
+			# # Loop principal em que manda as velocidades para o robo ate que ele chegue nas proximidades do ponto
+			# while not rospy.is_shutdown():
+			# 	for (x_goal, y_goal) in Pontos:
+			# 		vel_msg = Twist()
+			# 		while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
+			#
+			# 			[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
+			#
+			# 			vel_msg.linear.x = V
+			# 			vel_msg.angular.z = W
+			#
+			# 			self.pub_cmd_vel.publish(vel_msg)
+			# 			node_sleep_rate.sleep()
 
 
 			self.state = 1
