@@ -18,7 +18,7 @@ class RosiNodeClass():
 
         # Variavel que alerta sobre a forca
         self.forceFlag = 0
-        
+
         # Comandos a serem enviados para as juntas
         self.joint1 = 0.0
         self.joint2 = 0.0
@@ -95,14 +95,14 @@ class RosiNodeClass():
         self.actual4 = data.joint_variable[3]
         self.actual5 = data.joint_variable[4]
         self.actual6 = data.joint_variable[5]
-        
-        # Checa se o toque já ocorreu
+
+        # Checa se o toque ja ocorreu
         if(self.forceFlag == 1):
             self.touch = 1
 
         # No ponto especifico inicia a rotina
         #if(abs(self.pos_x - 0) >= self.err and abs(self.pos_y - 0) >= self.err and abs(self.angle - 0) >= self.err and self.touch != 1):
-        
+
         if(abs(self.actual1 - pi/2) <= self.err and abs(self.actual5 + pi/2) <= self.err and self.state == 0):
             self.state = 1
             print(self.state)
@@ -156,7 +156,7 @@ class RosiNodeClass():
             self.desired_joint4 = -5*pi/6
             self.desired_joint5 = self.joint5
             self.desired_joint6 = self.joint6
-        
+
         # Volta as juntas para a posicao inicial
         if(self.touch == 1):
             print('estado 5')

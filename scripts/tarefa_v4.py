@@ -62,94 +62,72 @@ class RosiCmdVelClass():
 		rospy.loginfo('campo potencial iniciado')
 
 		Pontos = list()
-		Pontos = [(0, 2.5), (-15, 2.5), (-30, 2.5), (-40, 3), (-55, 3), (-55, -4), (-40, -3.5), (-30, -3.5), (-15, -3.5), (0, -3.5), (0, 2.5), (-15, 2.5), (-30, 2.5), (-35, 2.5)]
-
-		# Pontos = [(0, 3), (-2, 2), (-3, 2)] #toque
+		####Pontos = [(0, 2.5), (-15, 2.5), (-30, 2.5), (-40, 3), (-55, 3), (-55, -4), (-40, -3.5), (-30, -3.5), (-15, -3.5), (0, -3.5), (0, 2.5), (-15, 2.5), (-30, 2.5), (-35, 2.5)]
 
 		# Loop principal em que manda as velocidades para o robo ate que ele chegue nas proximidades do ponto
 		while not rospy.is_shutdown():
-			for (x_goal, y_goal) in Pontos:
-				vel_msg = Twist()
-				while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
-
-					[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
-
-					vel_msg.linear.x = V
-					vel_msg.angular.z = W
-
-					self.pub_cmd_vel.publish(vel_msg)
-					node_sleep_rate.sleep()
-
-			# #Toque
-			# Pontos = [(-9, 1.85)]
-			# self.state = 1
-			# self.Err = 0.2
+			# for (x_goal, y_goal) in Pontos:
+			# 	vel_msg = Twist()
+			# 	while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
 			#
-			# # Loop principal em que manda as velocidades para o robo ate que ele chegue nas proximidades do ponto
-			# while not rospy.is_shutdown():
-			# 	for (x_goal, y_goal) in Pontos:
-			# 		vel_msg = Twist()
-			# 		while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
+			# 		[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
 			#
-			# 			[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
+			# 		vel_msg.linear.x = V
+			# 		vel_msg.angular.z = W
 			#
-			# 			vel_msg.linear.x = V
-			# 			vel_msg.angular.z = W
-			#
-			# 			self.pub_cmd_vel.publish(vel_msg)
-			# 			node_sleep_rate.sleep()
-
+			# 		self.pub_cmd_vel.publish(vel_msg)
+			# 		node_sleep_rate.sleep()
 
 			self.state = 1
 			self.Err = 0.2
 			self.Kp = 0.3
-			Pontos = [(-38, 2), (-41.5, 1.8)]
+			# Pontos = [(-38, 2), (-41.5, 1.8)]
+			#
+			# for (x_goal, y_goal) in Pontos:
+			# 	vel_msg = Twist()
+			# 	while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
+			#
+			# 		[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
+			#
+			# 		vel_msg.linear.x = V
+			# 		vel_msg.angular.z = W
+			#
+			# 		self.pub_cmd_vel.publish(vel_msg)
+			# 		node_sleep_rate.sleep()
+			#
+			# self.state = 2
+			#
+			# Pontos = [(-43, 1.9), (-45, 1.85), (-48, 1.85)]
+			# for (x_goal, y_goal) in Pontos:
+			# 	vel_msg = Twist()
+			# 	while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
+			#
+			# 		[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
+			#
+			# 		vel_msg.linear.x = V
+			# 		vel_msg.angular.z = W
+			#
+			# 		self.pub_cmd_vel.publish(vel_msg)
+			# 		node_sleep_rate.sleep()
+			#
+			# self.state = 3
+			# self.d *= -1
+			# Pontos = [(-45, 1.85), (-43, 1.85), (-41, 1.85), (-39, 2.5), (-37, 3), (-25, 3)]
+			# for (x_goal, y_goal) in Pontos:
+			# 	vel_msg = Twist()
+			# 	while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
+			#
+			# 		[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
+			#
+			# 		vel_msg.linear.x = V
+			# 		vel_msg.angular.z = W
+			#
+			# 		self.pub_cmd_vel.publish(vel_msg)
+			# 		node_sleep_rate.sleep()
 
-			for (x_goal, y_goal) in Pontos:
-				vel_msg = Twist()
-				while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
-
-					[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
-
-					vel_msg.linear.x = V
-					vel_msg.angular.z = W
-
-					self.pub_cmd_vel.publish(vel_msg)
-					node_sleep_rate.sleep()
-
-			self.state = 2
-
-			Pontos = [(-43, 1.9), (-45, 1.85), (-48, 1.85)]
-			for (x_goal, y_goal) in Pontos:
-				vel_msg = Twist()
-				while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
-
-					[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
-
-					vel_msg.linear.x = V
-					vel_msg.angular.z = W
-
-					self.pub_cmd_vel.publish(vel_msg)
-					node_sleep_rate.sleep()
-
-			self.state = 3
-			self.d *= -1
-			Pontos = [(-45, 1.85), (-43, 1.85), (-41, 1.85), (-39, 2.5), (-37, 3.5), (-32, 4)]
-			for (x_goal, y_goal) in Pontos:
-				vel_msg = Twist()
-				while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
-
-					[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
-
-					vel_msg.linear.x = V
-					vel_msg.angular.z = W
-
-					self.pub_cmd_vel.publish(vel_msg)
-					node_sleep_rate.sleep()
-
-			self.d *= -1
+			# self.d *= -1
 			self.state = 0
-			Pontos = [(-29, 4), (-28, 3.5), (-29, 3), (-30, 2), (-32, 1.8)]
+			Pontos = [(-29, 2.5), (-30, 2), (-32.5, 1.85)]
 			for (x_goal, y_goal) in Pontos:
 				vel_msg = Twist()
 				while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:

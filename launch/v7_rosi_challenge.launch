@@ -12,7 +12,7 @@
 	<node name="Filtro_posicao" pkg="aai_robotics" type="get_pose_from_sensors.py" output = "screen" respawn="true" />
 
   <!-- No que le a posicao e gera comandos de velocidade -->
-	<node name="Campos_Potenciais" pkg="aai_robotics" type="tarefa_v4.py" output = "screen" respawn="true" />
+	<node name="Campos_Potenciais" pkg="aai_robotics" type="tarefa_v4.py" output = "screen" respawn="false" />
 
 	<!-- No que controla a posicao da camera pelo hokuyo -->
 	<node name="Coleta_TC" pkg="aai_robotics" type="hokuyo_control.py" output = "screen" respawn="true" />
