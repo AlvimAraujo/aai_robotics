@@ -126,8 +126,7 @@ class RosiCmdVelClass():
 					node_sleep_rate.sleep()
 
 			self.d *= -1
-			self.state = 0
-			Pontos = [(-29, 2.5), (-30, 2), (-32.5, 1.85)]
+			Pontos = [(-29, 2.5), (-30, 2), (-32.5, 1.9)]
 			for (x_goal, y_goal) in Pontos:
 				vel_msg = Twist()
 				while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
