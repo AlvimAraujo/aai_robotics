@@ -109,7 +109,7 @@ class image_converter:
             #print('Regiao marcada no mapa')
             print('*'*3)
 
-            if int(no_red_center) > 500:
+            if int(no_red_center) > 1000:
                 xd = cos(self.angle)*self.near_x - sin(self.angle)*self.near_y
                 yd = sin(self.angle)*self.near_x + cos(self.angle)*self.near_y
                 FP = Pose()
