@@ -3,6 +3,7 @@
 	<param name="mostar_kinect_depth" type="bool" value="False" />
 	<param name="mostar_fire_cam" type="bool" value="False" />
 	<param name="map_path" type="str" value="$(find aai_robotics)/images/mapa_rosi.jpg" />
+	<param name="touch_mode" type="bool" value="False" />
 
 	<!-- No que transforma comandos de velocidade em comandos para as rodas -->
 	<node name="Controle_baixo_nivel" pkg="aai_robotics" type="vel_to_wheels.py" output = "screen" respawn="true" />
@@ -15,7 +16,7 @@
 	<node name="Campos_Potenciais" pkg="aai_robotics" type="tarefa_v4.py" output = "screen" respawn="false" />
 
 	<!-- No que controla a posicao da camera pelo hokuyo -->
-	<node name="Coleta_TC" pkg="aai_robotics" type="hokuyo_control.py" output = "screen" respawn="true" />
+	<node name="Coleta_TC" pkg="aai_robotics" type="hokuyo_control.py" output = "screen" respawn="false" />
 
 	<!-- No que mostra a imagem DEPTH do kinect-->
 	<node name="Profundidade_kinect" pkg="aai_robotics" type="kinect_depth_show.py" output = "screen" respawn="true" />
@@ -27,7 +28,10 @@
 	<node name="Mapeador_fogo" pkg="aai_robotics" type="fire_map.py" output = "screen" respawn="true" />
 
 	<!-- No que mostra a imagem DEPTH do kinect-->
-	<node name="Escada" pkg="aai_robotics" type="subir_escada.py" output = "screen" respawn="true" />
+	<node name="Escada" pkg="aai_robotics" type="subir_escada.py" output = "screen" respawn="false" />
+
+	<!-- No que mostra a imagem DEPTH do kinect-->
+	<node name="Toque" pkg="aai_robotics" type="touch.py" output = "screen" respawn="false" />
 
 	<!-- Parametros da simulacao para rodar mais leve-->
 	<rosparam command="load" file="$(find aai_robotics)/config/simulation_parametersMAISLEVE.yaml" />

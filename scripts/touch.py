@@ -14,7 +14,7 @@ class RosiNodeClass():
     def __init__(self):
         # Variaveis que controlam a rotina de toque
         self.touch = 0
-        self.state = 0
+        self.state = -1
 
         # Variavel que alerta sobre a forca
         self.forceFlag = 0
@@ -50,15 +50,21 @@ class RosiNodeClass():
         # Loop principal do algoritmo
         while not rospy.is_shutdown():
             #
-            traj = ManipulatorJoints()
-            traj.header.stamp = rospy.Time.now()
-            traj.joint_variable = [self.joint1, self.joint2, self.joint3, self.joint4, self.joint5, self.joint6]
+            if rospy.get_param('touch_mode'):
+                if self.state == -1:
+                    self.state = 0
 
-            # Publica a mensagem
-            self.pub_jointsPos.publish(traj)
+                traj = ManipulatorJoints()
+                traj.header.stamp = rospy.Time.now()
+                traj.joint_variable = [self.joint1, self.joint2, self.joint3, self.joint4, self.joint5, self.joint6]
 
-            # Pausa
-            node_sleep_rate.sleep()
+                # Publica a mensagem
+                self.pub_jointsPos.publish(traj)
+
+                # Pausa
+                node_sleep_rate.sleep()
+            else:
+                pass
 
 
     # Funcao de callback do sensor de forca

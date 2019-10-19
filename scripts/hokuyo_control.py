@@ -53,6 +53,9 @@ class RosiPoseClass():
             node_sleep_rate.sleep()
             #print(self.near_x, self.near_y, self.near_z)
 
+            if not rospy.get_param('touch_mode'):
+                break
+
     # Funcao de callback da posicao das juntas
     def callback_joints(self, data):
         # Erro permitido
