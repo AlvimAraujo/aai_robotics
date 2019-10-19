@@ -16,19 +16,26 @@ from tf.transformations import euler_from_quaternion, quaternion_from_euler
 
 class image_converter:
     def __init__(self):
-        # Posicao (x, y, theta)
+        # Posicao (x, y)
         self.pos_x = 0.1
         self.pos_y = 0.1
 
         self.fire_list = list()
-        # No em que vai subscrever a imagem a ser lida
-        self.sub_pose = rospy.Subscriber('/aai_rosi_pose', Pose, self.callback_pose)
+
+        #self.sub_pose = rospy.Subscriber('/aai_rosi_pose', Pose, self.callback_pose)
         self.sub_fire_pose = rospy.Subscriber('/aai_fire_pose', Pose, self.callback_fire_pose)
 
-    def callback_pose(self, data):
-        self.pos_x  = data.position.x
-        self.pos_y = data.position.y
-        mapa = cv2.imread('./src/aai_robotics/images/mapa_rosi.jpg', 1)
+    # def callback_pose(self, data):
+    #     self.pos_x  = data.position.x
+    #     self.pos_y = data.position.y
+
+    def callback_fire_pose(self, data):
+        if (data.position.x, data.position.y) not in self.fire_list:
+            self.fire_list.append((data.position.x, data.position.y))
+            # print('New fire point' + str(data.position.x) + ' ' + str(data.position.y))
+
+        #mapa = cv2.imread('./src/aai_robotics/images/mapa_rosi.jpg', 1)
+        mapa = cv2.imread(rospy.get_param('map_path'), 1)
 
         scale = 0.5
 
@@ -39,7 +46,7 @@ class image_converter:
 
         aux_h = int(10*scale)
         aux_w = int(20*scale)
-        aux_r = int(80*scale)
+        aux_r = int(20*scale)
 
         for (x, y) in self.fire_list:
 
@@ -49,22 +56,14 @@ class image_converter:
             Pixel_y = int(Pixel_y)
             cv2.circle(mapa, (Pixel_x,Pixel_y), aux_r , (0,0,255), 2)
 
-        Pixel_x = (self.pos_x + 60.21)* w /65.08
-        Pixel_y = 393*h/400 - (self.pos_y + 6.82)* h /13.08
-        Pixel_x = int(Pixel_x)
-        Pixel_y = int(Pixel_y)
+        # # Pose do robo quando viu o fogo
+        # Pixel_x = (self.pos_x + 60.21)* w /65.08
+        # Pixel_y = 393*h/400 - (self.pos_y + 6.82)* h /13.08
+        # Pixel_x = int(Pixel_x)
+        # Pixel_y = int(Pixel_y)
 
-        # 
-        # print('new ' + str(Pixel_x) + ' ' + str(Pixel_y))
-        # print(str(self.pos_x) + ' ' + str(self.pos_y))
-
-        cv2.rectangle(mapa, (Pixel_x + aux_w, Pixel_y + aux_h), (Pixel_x - aux_w, Pixel_y - aux_h), (255, 0, 0), 3)
         cv2.imshow("Mapa", mapa)
-        cv2.waitKey(1)
-
-    def callback_fire_pose(self, data):
-        if (data.position.x, data.position.y) not in self.fire_list:
-            self.fire_list.append((data.position.x, data.position.y))
+        cv2.waitKey(0)
 
 def main(args):
   ic = image_converter()
