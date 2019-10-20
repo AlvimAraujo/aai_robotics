@@ -7,8 +7,8 @@ from geometry_msgs.msg import Twist, Pose
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
 from math import sin, cos
 
-# Constantes de controle, necessita calibrar
-# Ganhor proporcional
+# Constantes de controle
+# Ganho proporcional
 Kp = 1
 # Distancia entre o centro de massa e a ponta
 d = 0.4
@@ -19,7 +19,7 @@ MAX_VEL = 1.5
 
 MIN_VEL = 0.3
 
-# Funcao que calcula os sinais V e omega dado Vx, Vy, e a posicoes inicial e final
+# Funcao que calcula os sinais V e omega dado Vx, Vy, e as posicoes inicial e final
 def calc_vel_feedback_linearization(current_x, current_y, current_theta, x_goal, y_goal):
 	#LEMBRETE: IMPLEMENTAR LIMITACAO DAS VELOCIDADES
 	vel_x = Kp * (x_goal - current_x)
@@ -53,12 +53,13 @@ class RosiCmdVelClass():
 		self.pos_y = 0.1
 		self.angle = 0.1
 
-		# Nos que subscreve e publica # kkkk
+		# Nos que subscreve e publica
 		self.sub_pose = rospy.Subscriber('/aai_rosi_pose', Pose, self.callback_pose)
 		self.pub_cmd_vel = rospy.Publisher('/aai_rosi_cmd_vel', Twist, queue_size=1)
 
 		# Frequencia de publicacao
 		node_sleep_rate = rospy.Rate(10)
+
 		# Mensagem de inicializacao
 		rospy.loginfo('primeira_tarefa_v1 iniciado')
 
@@ -94,7 +95,7 @@ class RosiCmdVelClass():
 
 		self.pos_x  = data.position.x
 		self.pos_y = data.position.y
-		self.angle = euler_angles[2] # Apenas o angulo de Euler no eixo z interessa
+		self.angle = euler_angles[2] # Apenas o angulo de Euler no eixo z nos interessa
 
 # Funcao main
 if __name__ == '__main__':

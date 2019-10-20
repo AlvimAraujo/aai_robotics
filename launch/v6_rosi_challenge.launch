@@ -4,25 +4,25 @@
 	<node name="vel_to_wheels" pkg="aai_robotics" type="vel_to_wheels.py" output = "screen" respawn="true" />
 	<!--node name="vel_to_wheels" pkg="aai_robotics" type="vel_to_wheels_limited.py" output = "screen" respawn="true" /-->
 
-  <!-- No que une as informacoes de posicao(gps e imu) em um unico topico -->
+  	<!-- No que une as informacoes de posicao (gps e imu) em um unico topico -->
 	<node name="get_pose_from_sensors" pkg="aai_robotics" type="get_pose_from_sensors.py" output = "screen" respawn="true" />
 
-  <!-- No que le a posicao e gera comandos de velocidade -->
+  	<!-- No que le a posicao e gera comandos de velocidade -->
 	<node name="controle_campos_potenciais" pkg="aai_robotics" type="tarefa_v4.py" output = "screen" respawn="true" />
 
 	<!-- No que controla a posicao da camera pelo hokuyo -->
 	<node name="hokuyo_control" pkg="aai_robotics" type="hokuyo_control.py" output = "screen" respawn="true" />
 
-	<!-- No que mostra a imagem DEPTH do kinect-->
+	<!-- No que mostra a imagem de profundidade (DEPTH) do kinect -->
 	<node name="kinect_depth_show" pkg="aai_robotics" type="kinect_depth_show.py" output = "screen" respawn="true" />
 
-	<!-- No que detecta fogo-->
+	<!-- No que detecta fogo -->
 	<node name="fire_detect" pkg="aai_robotics" type="fire_show.py" output = "screen" respawn="true" />
 
-	<!-- No que mostra a imagem DEPTH do kinect-->
+	<!-- No que realiza a tarefa de subir as escadas -->
 	<node name="stairs" pkg="aai_robotics" type="subir_escada.py" output = "screen" respawn="true" />
 
-	<!-- Parametros da simulacao para rodar mais leve-->
+	<!-- Parametros da simulacao para rodar mais leve -->
 	<rosparam command="load" file="$(find aai_robotics)/config/simulation_parametersMAISLEVE.yaml" />
 
 </launch>

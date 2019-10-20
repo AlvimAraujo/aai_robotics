@@ -1,7 +1,7 @@
 #!/usr/bin/python
-#
-# Send joint values to UR5 using messages
-#
+#############################
+# REALIZA O CONTROLE DO UR5 #
+#############################
 
 import rospy
 from rosi_defy.msg import ManipulatorJoints

@@ -2,7 +2,7 @@
 ######################################################################
 # CODIGO DE CONTROLE: DADA A POSICAO CALCULA OS SINAIS DE VELOCIDADE #
 ######################################################################
-from __future__ import print_function # apenas para imprimir os erros, caso hajam
+from __future__ import print_function # apenas para imprimir os erros, caso existam
 
 import rospy
 import roslib
@@ -22,8 +22,8 @@ from math import sin, cos, sqrt
 # Classe que contem os metodos necessarios para o programa
 class RosiCmdVelClass():
 
-	# Constantes de controle, necessita calibrar
-	# Ganhor proporcional
+	# Constantes de controle
+	# Ganho proporcional
 	Kp = 0.5
 	# Distancia entre o centro de massa e a ponta
 	d = 0.1
@@ -43,28 +43,32 @@ class RosiCmdVelClass():
 		self.pos_x = 0.1
 		self.pos_y = 0.1
 		self.angle = 0.1
-		# Posicao dos relativa do ponto a ser desviado
+
+		# Posicao relativa do ponto a ser desviado
 		self.xd = 10
 		self.yd = 10
 
+		# Variavel de controle
 		self.state = 0
-
+		
+		# 
 		self.bridge = CvBridge()
 
-		# Nos que subscreve e publica # kkkk
+		# Nos que subscreve e publica 
 		self.sub_pose = rospy.Subscriber('/aai_rosi_pose', Pose, self.callback_pose)
 		self.pub_cmd_vel = rospy.Publisher('/aai_rosi_cmd_vel', Twist, queue_size=1)
 		self.image_sub = rospy.Subscriber("/aai_depth_show",Image,self.callback_image)
 
 		# Frequencia de publicacao
 		node_sleep_rate = rospy.Rate(10)
+
 		# Mensagem de inicializacao
 		rospy.loginfo('campo potencial iniciado')
 
 		Pontos = list()
 		Pontos = [(0, 2.5), (-15, 2.5), (-30, 2.5), (-40, 3), (-55, 3), (-55, -4), (-40, -3.5), (-30, -3.5), (-15, -3.5), (0, -3.5), (0, 2.5), (-15, 2.5), (-30, 2.5), (-35, 2.5)]
 
-		# Loop principal em que manda as velocidades para o robo ate que ele chegue nas proximidades do ponto
+		# Loop principal que manda as velocidades para o robo ate que ele chegue nas proximidades do ponto
 		while not rospy.is_shutdown():
 			for (x_goal, y_goal) in Pontos:
 				vel_msg = Twist()
@@ -230,7 +234,7 @@ class RosiCmdVelClass():
 
 		self.pos_x  = data.position.x
 		self.pos_y = data.position.y
-		self.angle = euler_angles[2] # Apenas o angulo de Euler no eixo z interessa
+		self.angle = euler_angles[2] # Apenas o angulo de Euler no eixo z nos interessa
 
 
 	def callback_image(self,data):

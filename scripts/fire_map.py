@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-####################################################
-# CODIGO QUE MOSTRA A IMAGEM RBG VISTA PELO KINECT #
-####################################################
-from __future__ import print_function # apenas para imprimir os erros, caso hajam
+#####################################################
+# CODIGO QUE GERA O MAPA COM OS PONTOS ONDE HA FOGO #
+#####################################################
+from __future__ import print_function # apenas para imprimir os erros, caso existam
 import roslib
 import sys
 import rospy
@@ -56,7 +56,7 @@ class image_converter:
             Pixel_y = int(Pixel_y)
             cv2.circle(mapa, (Pixel_x,Pixel_y), aux_r , (0,0,255), 2)
 
-        # # Pose do robo quando viu o fogo
+        # Pose do robo quando viu o fogo
         # Pixel_x = (self.pos_x + 60.21)* w /65.08
         # Pixel_y = 393*h/400 - (self.pos_y + 6.82)* h /13.08
         # Pixel_x = int(Pixel_x)

@@ -2,7 +2,7 @@
 ######################################################
 # CODIGO QUE MOSTRA A IMAGEM DEPTH VISTA PELO KINECT #
 ######################################################
-from __future__ import print_function # apenas para imprimir os erros, caso hajam
+from __future__ import print_function # apenas para imprimir os erros, caso existam
 import roslib
 import sys
 import rospy

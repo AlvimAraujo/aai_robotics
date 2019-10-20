@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##################################################################
 # CONTROLA A CAMERA PARA SEMPRE FILMAR A ESTEIRA, LENDO O HOKUYO #
-##########################################################################
+##################################################################
 import rospy
 from rosi_defy.msg import HokuyoReading, ManipulatorJoints
 from math import pi, sin, cos, sqrt, atan2
@@ -60,6 +60,7 @@ class RosiPoseClass():
     def callback_joints(self, data):
         # Erro permitido
         self.err = 0.05
+        
         # Posicao desejada das juntas
         self.desired_joint1 = self.angle
         self.desired_joint2 = 0

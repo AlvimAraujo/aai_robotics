@@ -26,6 +26,7 @@ class RosiNodeClass():
 		# Comandos que serao enviados para as rodas da direita e da esquerda
 		self.omega_left = 0
 		self.omega_right = 0
+		
 		# Atalhos para informar que deve mandar velocidade 0 quando nao houver comandos de velocidade
 		self.last = 0
 		self.TIME_OUT = 0.1

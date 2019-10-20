@@ -11,8 +11,8 @@ from math import sin, cos, sqrt
 class RosiCmdVelClass():
 
 
-	# Constantes de controle, necessita calibrar
-	# Ganhor proporcional
+	# Constantes de controle
+	# Ganho proporcional
 	Kp = 1
 	# Distancia entre o centro de massa e a ponta
 	d = 0.1
@@ -33,12 +33,13 @@ class RosiCmdVelClass():
 		self.pos_y = 0.1
 		self.angle = 0.1
 
-		# Nos que subscreve e publica # kkkk
+		# Nos que subscreve e publica
 		self.sub_pose = rospy.Subscriber('/aai_rosi_pose', Pose, self.callback_pose)
 		self.pub_cmd_vel = rospy.Publisher('/aai_rosi_cmd_vel', Twist, queue_size=1)
 
 		# Frequencia de publicacao
 		node_sleep_rate = rospy.Rate(10)
+
 		# Mensagem de inicializacao
 		rospy.loginfo('campo potencial iniciado')
 
@@ -114,7 +115,7 @@ class RosiCmdVelClass():
 
 		self.pos_x  = data.position.x
 		self.pos_y = data.position.y
-		self.angle = euler_angles[2] # Apenas o angulo de Euler no eixo z interessa
+		self.angle = euler_angles[2] # Apenas o angulo de Euler no eixo z nos interessa
 
 # Funcao main
 if __name__ == '__main__':

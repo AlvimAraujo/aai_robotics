@@ -8,8 +8,8 @@ from tf.transformations import euler_from_quaternion, quaternion_from_euler
 from math import sin, cos, sqrt
 from rosi_defy.msg import HokuyoReading
 
-# Constantes de controle, necessita calibrar
-# Ganhor proporcional
+# Constantes de controle
+# Ganho proporcional
 Kp = 1
 # Distancia entre o centro de massa e a ponta
 d = 0.1
@@ -38,16 +38,18 @@ class RosiCmdVelClass():
 		self.pos_z = 0.1
 		self.angle = 0.1
 
+		# Posicao do obstaculo mais proximo
 		self.nearest_obstacle_x = 0.1
 		self.nearest_obstacle_y = 0.1
 
-		# Nos que subscreve e publica # kkkk
+		# Nos que subscreve e publica 
 		self.sub_pose = rospy.Subscriber('/aai_rosi_pose', Pose, self.callback_pose)
 		self.sub_hok = rospy.Subscriber('/aai_rosi_border_obstacle', HokuyoReading, self.callback_hok)
 		self.pub_cmd_vel = rospy.Publisher('/aai_rosi_cmd_vel', Twist, queue_size=1)
 
 		# Frequencia de publicacao
 		node_sleep_rate = rospy.Rate(10)
+		
 		# Mensagem de inicializacao
 		rospy.loginfo('campo potencial iniciado')
 
@@ -82,7 +84,7 @@ class RosiCmdVelClass():
 
 
 		# Campo potencial repulsivo
-		# (b_x, b_y) eh o ponto de obstaculos mais proximo do robo
+		# (b_x, b_y) eh o ponto de algum obstaculo que esta mais proximo do robo
 		b_x = self.nearest_obstacle_x
 		b_y = self.nearest_obstacle_y
 
@@ -120,7 +122,7 @@ class RosiCmdVelClass():
 
 		self.pos_x  = data.position.x
 		self.pos_y = data.position.y
-		self.angle = euler_angles[2] # Apenas o angulo de Euler no eixo z interessa
+		self.angle = euler_angles[2] # Apenas o angulo de Euler no eixo z nos interessa
 
 	def callback_hok(self, data):
 
@@ -129,7 +131,7 @@ class RosiCmdVelClass():
 		borda_z = data.reading[2::3]
 
 		try:
-			#Se existir dados do Hokuyo
+			# Se existir dados do Hokuyo
 			min = sqrt( (self.pos_x - borda_x[0])**2 + (self.pos_y - borda_y[0])**2 )
 			for i in range(len(borda_x)):
 				if min > sqrt( (self.pos_x - borda_x[i])**2 + (self.pos_y - borda_y[i])**2 ):
@@ -137,7 +139,7 @@ class RosiCmdVelClass():
 					self.nearest_obstacle_x = borda_x[i]
 					self.nearest_obstacle_y = borda_y[i]
 		except:
-			#Senao
+			# Senao
 			min = 0
 			self.nearest_obstacle_x = self.pos_x + 100
 			self.nearest_obstacle_y = self.pos_y + 100
