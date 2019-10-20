@@ -102,7 +102,7 @@ class image_converter:
         else:
             cv2.destroyAllWindows()
 
-        if int(no_red) > 2000:
+        if int(no_red) > 2000 and not rospy.get_param('touch_mode'):
             print('*'*3)
             print('Alerta! Possivel rolo em chamas detectado')
             print('Proximo a (latitude, longitude) = ' + str(self.pos_x) + ' ' + str(self.pos_y))

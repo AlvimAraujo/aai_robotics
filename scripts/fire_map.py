@@ -32,7 +32,7 @@ class image_converter:
     def callback_fire_pose(self, data):
         if (data.position.x, data.position.y) not in self.fire_list:
             self.fire_list.append((data.position.x, data.position.y))
-            # print('New fire point' + str(data.position.x) + ' ' + str(data.position.y))
+            print('New fire point' + str(data.position.x) + ' ' + str(data.position.y))
 
         #mapa = cv2.imread('./src/aai_robotics/images/mapa_rosi.jpg', 1)
         mapa = cv2.imread(rospy.get_param('map_path'), 1)

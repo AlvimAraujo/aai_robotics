@@ -2,12 +2,14 @@
 ######################################################################
 # CODIGO QUE CONVERTE SINAIS DE VELOCIDADE EM COMANDOS PARA AS RODAS #
 ######################################################################
+# Este no representa o controle de baixo nivel
+
 import rospy
+# Estruturas de dados usadas
 from rosi_defy.msg import RosiMovement, RosiMovementArray
 from geometry_msgs.msg import Twist
 
 # Classe RosiNodeClass responsavel por todo o processo do programa
-# Objeto RosiNodeClass criado na main
 class RosiNodeClass():
 
 	# Atributos segundo o manual
@@ -20,26 +22,24 @@ class RosiNodeClass():
 	#Distancia entre as rodas direitas e esquerdas
 	L = 0.6
 
-	# Class constructor
+	# Construtor
 	def __init__(self):
 
 		# Comandos que serao enviados para as rodas da direita e da esquerda
 		self.omega_left = 0
 		self.omega_right = 0
-		
+
 		# Atalhos para informar que deve mandar velocidade 0 quando nao houver comandos de velocidade
 		self.last = 0
 		self.TIME_OUT = 0.1
 
 		# Mensagem de inicializacao
-		rospy.loginfo('vel_to_wheels iniciado')
+		rospy.loginfo('Controle de baixo nivel iniciado')
 
 		# Publicar em command_traction_speed
 		self.pub_traction = rospy.Publisher('/rosi/command_traction_speed', RosiMovementArray, queue_size=1)
-
 		# Subscrever em aai_rosi_cmd_vel
 		self.sub_cmd_vel = rospy.Subscriber('/aai_rosi_cmd_vel', Twist, self.callback_cmd_vel)
-
 		# Frequencia de publicacao
 		node_sleep_rate = rospy.Rate(10)
 
@@ -51,13 +51,10 @@ class RosiNodeClass():
 
 			# Criar traction_command_list como uma soma de traction_commands
 			for i in range(4):
-
 				# Um comando de tracao por roda
 				traction_command = RosiMovement()
-
 				# ID da roda
 				traction_command.nodeID = i+1
-
 				# Publicar 0 caso nao haja comandos de velociade
 				if rospy.get_rostime().to_sec() - self.last >= self.TIME_OUT:
 					traction_command.joint_var = 0
@@ -73,7 +70,6 @@ class RosiNodeClass():
 
 			# Publicacao
 			self.pub_traction.publish(traction_command_list)
-
 			# Pausa
 			node_sleep_rate.sleep()
 

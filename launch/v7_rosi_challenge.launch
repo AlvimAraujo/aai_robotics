@@ -10,10 +10,10 @@
 	<node name="Controle_baixo_nivel" pkg="aai_robotics" type="vel_to_wheels.py" output = "screen" respawn="true" />
 	<!--node name="vel_to_wheels" pkg="aai_robotics" type="vel_to_wheels_limited.py" output = "screen" respawn="true" /-->
 
-  	<!-- No que une as informacoes de posicao (gps e imu) em um unico topico -->
+  <!-- No que une as informacoes de posicao (gps e imu) em um unico topico -->
 	<node name="Filtro_posicao" pkg="aai_robotics" type="get_pose_from_sensors.py" output = "screen" respawn="true" />
 
-  	<!-- No que le a posicao e gera comandos de velocidade -->
+  <!-- No que le a posicao e gera comandos de velocidade -->
 	<node name="Campos_Potenciais" pkg="aai_robotics" type="tarefa_v4.py" output = "screen" respawn="false" />
 
 	<!-- No que controla a posicao da camera pelo hokuyo -->
@@ -32,7 +32,7 @@
 	<node name="Escada" pkg="aai_robotics" type="subir_escada.py" output = "screen" respawn="false" />
 
 	<!-- No que realiza a tarefa de toque no cavalete -->
-	<node name="Toque" pkg="aai_robotics" type="touch.py" output = "screen" respawn="false" />
+	<node name="Toque" pkg="aai_robotics" type="fire_touch.py" output = "screen" respawn="false" />
 
 	<!-- Parametros da simulacao para rodar mais leve -->
 	<rosparam command="load" file="$(find aai_robotics)/config/simulation_parametersMAISLEVE.yaml" />

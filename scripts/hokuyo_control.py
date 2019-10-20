@@ -42,6 +42,9 @@ class RosiPoseClass():
 
         # Loop principal, responsavel pelos procedimentos chaves do programa
         while not rospy.is_shutdown():
+            if rospy.get_param('touch_mode'):
+                continue
+                
             traj = ManipulatorJoints()
             traj.header.stamp = rospy.Time.now()
             traj.joint_variable = [self.joint1, self.joint2, self.joint3, self.joint4, self.joint5, self.joint6]
@@ -53,14 +56,11 @@ class RosiPoseClass():
             node_sleep_rate.sleep()
             #print(self.near_x, self.near_y, self.near_z)
 
-            if not rospy.get_param('touch_mode'):
-                break
-
     # Funcao de callback da posicao das juntas
     def callback_joints(self, data):
         # Erro permitido
         self.err = 0.05
-        
+
         # Posicao desejada das juntas
         self.desired_joint1 = self.angle
         self.desired_joint2 = 0
