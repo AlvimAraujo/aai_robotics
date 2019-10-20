@@ -197,7 +197,7 @@ class RosiCmdVelClass():
 			vel_msg.linear.x = 0
 			vel_msg.angular.z = 0
 			self.pub_cmd_vel.publish(vel_msg)
-			foo()
+			foo() # :)
 			break
 
 
@@ -308,14 +308,15 @@ class RosiCmdVelClass():
 		self.xd = xd
 		self.yd = yd
 
+# Mensagem de despedida e finalizacao
 def foo():
 	print('\n'*5)
 	print('A execucao chegou ao fim.\n')
 	print('A equipe AAI Robotics agradece pela oportunidade!')
 	print('Foi desafiador para todos os tres membros do grupo.')
 	print('Aprendemos muito com o desafio e estamos orgulhosos de termos chegado ate aqui.\n')
-	print('Foi um prazer!')
-	print('Atenciosamente,')
+	print('Foi um prazer!\n')
+	print('Atenciosamente,\n')
 	print('Alvaro Rodrigues Araujo')
 	print('Arthur Henrique Dias Nunes')
 	print('Israel Filipe Silva Amaral')

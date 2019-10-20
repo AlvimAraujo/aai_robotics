@@ -53,7 +53,7 @@ class image_converter:
             Pixel_y = 393*h/400 - (y + 6.82)* h /13.08
             Pixel_x = int(Pixel_x)
             Pixel_y = int(Pixel_y)
-            cv2.circle(mapa, (Pixel_x,Pixel_y), aux_r , (0,0,255), 2)
+            cv2.circle(mapa, (Pixel_x,Pixel_y), aux_r , (255,0,0), 2)
 
         # Pose do robo quando viu o fogo
         # Pixel_x = (self.pos_x + 60.21)* w /65.08

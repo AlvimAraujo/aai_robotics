@@ -101,7 +101,7 @@ class RosiNodeClass():
         self.actual6 = data.joint_variable[5]
 
         # Checa se o toque ja ocorreu
-        if(self.forceFlag == 1 and self.state != 0 and self.state != 1 and self.state != 2):
+        if(self.forceFlag == 1 and self.state != -1 and self.state != 0 and self.state != 1 and self.state != 2):
             self.touch = 1
 
         # No ponto especifico inicia a rotina
@@ -118,7 +118,7 @@ class RosiNodeClass():
 
         # Volta as juntas para a posicao inicial apos o toque ter sido realizado
         if(self.touch == 1):
-            #print('estado 5')
+            # print('estado 5')
             #rospy.set_param('touch_mode', False)
             self.state = 5
             self.desired_joint2 = 0.0
@@ -131,11 +131,11 @@ class RosiNodeClass():
 
         if(self.state == 0):
             # print('estado 0')
-            self.desired_joint1 = self.actual1 + 0.1 #pi/2
+            self.desired_joint1 = pi/2
             self.desired_joint2 = 0.0
             self.desired_joint3 = 0.0
             self.desired_joint4 = 0.0
-            self.desired_joint5 = self.actual5 - 0.1 #-pi/2
+            self.desired_joint5 = -pi/2
             self.desired_joint6 = 0.0
         if(self.state == 1):
             # print('estado 1')
