@@ -46,15 +46,15 @@ class RosiPoseClass():
             # Caso esteja na tarefa do toque, esse no nao deve publicar nada
             if rospy.get_param('touch_mode'):
                 continue
+            else:
+                traj = ManipulatorJoints()
+                traj.header.stamp = rospy.Time.now()
+                traj.joint_variable = [self.joint1, self.joint2, self.joint3, self.joint4, self.joint5, self.joint6]
 
-            traj = ManipulatorJoints()
-            traj.header.stamp = rospy.Time.now()
-            traj.joint_variable = [self.joint1, self.joint2, self.joint3, self.joint4, self.joint5, self.joint6]
-
-            # Publica a mensagem
-            self.pub_jointsPos.publish(traj)
-            # Pausa
-            node_sleep_rate.sleep()
+                # Publica a mensagem
+                self.pub_jointsPos.publish(traj)
+                # Pausa
+                node_sleep_rate.sleep()
 
     # Funcao de callback da posicao das juntas
     def callback_joints(self, data):

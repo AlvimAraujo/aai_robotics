@@ -63,11 +63,14 @@ class RosiCmdVelClass():
 			for (x_goal, y_goal) in Pontos:
 				vel_msg = Twist()
 				while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
+					try:
+						[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
 
-					[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
-
-					vel_msg.linear.x = V
-					vel_msg.angular.z = W
+						vel_msg.linear.x = V
+						vel_msg.angular.z = W
+					except:
+						vel_msg.linear.x = 0
+						vel_msg.angular.z = 0
 
 					self.pub_cmd_vel.publish(vel_msg)
 					node_sleep_rate.sleep()
@@ -82,10 +85,14 @@ class RosiCmdVelClass():
 				vel_msg = Twist()
 				while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
 
-					[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
+					try:
+						[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
 
-					vel_msg.linear.x = V
-					vel_msg.angular.z = W
+						vel_msg.linear.x = V
+						vel_msg.angular.z = W
+					except:
+						vel_msg.linear.x = 0
+						vel_msg.angular.z = 0
 
 					self.pub_cmd_vel.publish(vel_msg)
 					node_sleep_rate.sleep()
@@ -98,10 +105,14 @@ class RosiCmdVelClass():
 				vel_msg = Twist()
 				while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
 
-					[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
+					try:
+						[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
 
-					vel_msg.linear.x = V
-					vel_msg.angular.z = W
+						vel_msg.linear.x = V
+						vel_msg.angular.z = W
+					except:
+						vel_msg.linear.x = 0
+						vel_msg.angular.z = 0
 
 					self.pub_cmd_vel.publish(vel_msg)
 					node_sleep_rate.sleep()
@@ -115,10 +126,14 @@ class RosiCmdVelClass():
 				vel_msg = Twist()
 				while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
 
-					[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
+					try:
+						[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
 
-					vel_msg.linear.x = V
-					vel_msg.angular.z = W
+						vel_msg.linear.x = V
+						vel_msg.angular.z = W
+					except:
+						vel_msg.linear.x = 0
+						vel_msg.angular.z = 0
 
 					self.pub_cmd_vel.publish(vel_msg)
 					node_sleep_rate.sleep()
@@ -134,10 +149,14 @@ class RosiCmdVelClass():
 				vel_msg = Twist()
 				while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
 
-					[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
+					try:
+						[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
 
-					vel_msg.linear.x = V
-					vel_msg.angular.z = W
+						vel_msg.linear.x = V
+						vel_msg.angular.z = W
+					except:
+						vel_msg.linear.x = 0
+						vel_msg.angular.z = 0
 
 					self.pub_cmd_vel.publish(vel_msg)
 					node_sleep_rate.sleep()
@@ -152,10 +171,14 @@ class RosiCmdVelClass():
 				vel_msg = Twist()
 				while abs(self.pos_x - x_goal) > self.Err or abs(self.pos_y - y_goal) > self.Err:
 
-					[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
+					try:
+						[V, W] = self.calc_vel_from_potential(self.pos_x, self.pos_y, self.angle, x_goal, y_goal)
 
-					vel_msg.linear.x = V
-					vel_msg.angular.z = W
+						vel_msg.linear.x = V
+						vel_msg.angular.z = W
+					except:
+						vel_msg.linear.x = 0
+						vel_msg.angular.z = 0
 
 					self.pub_cmd_vel.publish(vel_msg)
 					node_sleep_rate.sleep()
