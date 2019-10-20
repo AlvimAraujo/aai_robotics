@@ -2,7 +2,7 @@
 ####################################################
 # CODIGO QUE MOSTRA A IMAGEM RBG VISTA PELO KINECT #
 ####################################################
-from __future__ import print_function # apenas para imprimir os erros, caso hajam
+from __future__ import print_function # apenas para imprimir os erros, caso existam
 import roslib
 import sys
 import rospy
@@ -27,7 +27,7 @@ class image_converter:
       cv_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
     except CvBridgeError as e:
       print(e)
-    # # Desenhar circulo
+    # Desenhar circulo
     # cv2.circle(cv_image, (50,50), 10, 255)
     cv2.imshow("Kinect RGB", cv_image)
     cv2.waitKey(3)

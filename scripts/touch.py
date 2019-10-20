@@ -1,7 +1,7 @@
 #!/usr/bin/python
-#
-# Send joint values to UR5 using messages
-#
+####################################################
+# REALIZA O CONTROLE DO UR5 PARA TOCAR NO CAVALETE #
+####################################################
 
 import rospy
 from rosi_defy.msg import ManipulatorJoints
@@ -72,7 +72,7 @@ class RosiNodeClass():
 
 		self.pos_x  = data.position.x
 		self.pos_y = data.position.y
-		self.angle = euler_angles[2] # Apenas o angulo de Euler no eixo z interessa
+		self.angle = euler_angles[2] # Apenas o angulo de Euler no eixo z nos interessa
 
     def callback_force(self, data):
         # Calculo e analise da forca

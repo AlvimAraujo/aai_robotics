@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-######################################################################
-# CODIGO QUE COMANDA OS BRACOS DAS RODAS DO ROSI                     #
-######################################################################
+##################################################
+# CODIGO QUE COMANDA OS BRACOS DAS RODAS DO ROSI #
+##################################################
 import rospy
 from rosi_defy.msg import RosiMovement, RosiMovementArray
 from geometry_msgs.msg import Twist, Pose
@@ -11,14 +11,15 @@ class RosiNodeClass():
 
     def __init__(self):
 
-
-        # Comandos que serao enviados para as rodas da direita e da esquerda
+        # Comandos que serao enviados para as rodas da frente e de tras
         self.omega_front = 0
         self.omega_back = 0
+
         # Representacao da posicao desejada dos bracos
         self.desired_front = 0
         self.desired_back = 0
 
+        # Variavel de controle
         self.state = 0
 
         # Mensagem de inicializacao
@@ -26,9 +27,8 @@ class RosiNodeClass():
 
         # Publicar em command_arms_speed
         self.pub_arms_vel = rospy.Publisher('/rosi/command_arms_speed', RosiMovementArray, queue_size=1)
-        # Subscrever em arms_joints_position
+        # Subscrever em arms_joints_position e aai_rosi_pose
         self.sub_arms_pos = rospy.Subscriber('/rosi/arms_joints_position', RosiMovementArray, self.callback_arms)
-
         self.sub_pose = rospy.Subscriber('/aai_rosi_pose', Pose, self.callback_pose)
 
         # Frequencia de publicacao
@@ -47,7 +47,7 @@ class RosiNodeClass():
                 traction_command = RosiMovement()
                 # ID da roda
                 traction_command.nodeID = i+1
-                # Separa as rodas do lado direito do esquerdo
+                # Separa as rodas da frente e de tras
                 if i == 0 or i == 2:
                     traction_command.joint_var = self.omega_front
                 else:
@@ -61,7 +61,7 @@ class RosiNodeClass():
             # Pausa
             node_sleep_rate.sleep()
 
-    # Funcao de callback
+    # Funcao de callback dos bracos
     def callback_arms(self, data):
 
         #print('escada estado = ' + str(self.state))
@@ -144,7 +144,7 @@ class RosiNodeClass():
             else:
                 self.omega_back = 0
 
-
+    # Funcao de callback da pose
     def callback_pose(self, data):
 
         Err_pos = 0.15
@@ -172,7 +172,6 @@ class RosiNodeClass():
         (x_goal, y_goal) = Pontos[5]
         if abs(self.pos_x - x_goal) < Err_pos and abs(self.pos_y - y_goal) < Err_pos:
             self.state = 5
-
 
 
 

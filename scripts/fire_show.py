@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 ####################################################
-# CODIGO QUE MOSTRA A IMAGEM RBG VISTA PELO KINECT #
+# CODIGO QUE MOSTRA O FOGO IDENTIFICADO NO MAPA    #
 ####################################################
-from __future__ import print_function # apenas para imprimir os erros, caso hajam
+from __future__ import print_function # apenas para imprimir os erros, caso existam
 import roslib
 import sys
 import rospy
@@ -52,7 +52,7 @@ class image_converter:
 
 		self.pos_x  = data.position.x
 		self.pos_y = data.position.y
-		self.angle = euler_angles[2] + pi/2 + self.joint#+ atan2(self.near_y, self.near_x)# Apenas o angulo de Euler no eixo z interessa
+		self.angle = euler_angles[2] + pi/2 + self.joint #+ atan2(self.near_y, self.near_x) # Apenas o angulo de Euler no eixo z nos interessa
 
     def callback_hokuyo(self, data):
         borda_x = data.reading[0::3]
