@@ -1,41 +1,37 @@
 <launch>
 
-	<!-- Parametros usados -->
-	<param name="mostar_kinect_depth" type="bool" value="False" />
-	<param name="mostar_fire_cam" type="bool" value="False" />
-	<param name="map_path" type="str" value="$(find aai_robotics)/images/mapa_rosi.jpg" />
-	<param name="map_scale_factor" type="double" value="0.5"/>
-	<param name="touch_mode" type="bool" value="False" />
+	<!-- - - - - Parametros usados - - - - - -->
+		<!-- Mostrar a imagem de profundidade do kinect. Sete para True caso queira ve-la -->
+		<param name="mostar_kinect_depth" type="bool" value="False" />
+		<!-- Mostrar a o fogo identificado. Sete para True caso queira ver -->
+		<param name="mostar_fire_cam" type="bool" value="False" />
+		<!-- Caminho ate onde se encontra o arquivo do mapa o desafio -->
+		<param name="map_path" type="str" value="$(find aai_robotics)/images/mapa_rosi.jpg" />
+		<!-- Fator de escada do mapa a ser mostrado. Valor 1 significa uma imagem de 1900px x 400px -->
+		<param name="map_scale_factor" type="double" value="0.5"/>
+		<!-- Indicator de rotina de toque. Nao altere -->
+		<param name="touch_mode" type="bool" value="False" />
+		<!-- Carregar arquivo com parametros para a simualacao no VREP -->
+		<rosparam command="load" file="$(find aai_robotics)/config/simulation_parametersMAISLEVE.yaml" />
 
-	<!-- No que transforma comandos de velocidade em comandos para as rodas -->
-	<node name="Controle_baixo_nivel" pkg="aai_robotics" type="vel_to_wheels.py" output = "screen" respawn="true" />
-	<!--node name="vel_to_wheels" pkg="aai_robotics" type="vel_to_wheels_limited.py" output = "screen" respawn="true" /-->
-
-  <!-- No que une as informacoes de posicao (gps e imu) em um unico topico -->
-	<node name="Filtro_posicao" pkg="aai_robotics" type="get_pose_from_sensors.py" output = "screen" respawn="true" />
-
-  <!-- No que le a posicao e gera comandos de velocidade -->
-	<node name="Campos_Potenciais" pkg="aai_robotics" type="tarefa_v4.py" output = "screen" respawn="false" />
-
-	<!-- No que controla a posicao da camera pelo hokuyo -->
-	<node name="Coleta_TC" pkg="aai_robotics" type="hokuyo_control.py" output = "screen" respawn="false" />
-
-	<!-- No que mostra a imagem de profundidade (DEPTH) do kinect-->
-	<node name="Profundidade_kinect" pkg="aai_robotics" type="kinect_depth_show.py" output = "screen" respawn="true" />
-
-	<!-- No que detecta fogo -->
-	<node name="Detector_fogo" pkg="aai_robotics" type="fire_show.py" output = "screen" respawn="true" />
-
-	<!-- No que mapeia o fogo detectado -->
-	<node name="Mapeador_fogo" pkg="aai_robotics" type="fire_map.py" output = "screen" respawn="true" />
-
-	<!-- No que realiza a tarefa de subir as escadas -->
-	<node name="Escada" pkg="aai_robotics" type="subir_escada.py" output = "screen" respawn="false" />
-
-	<!-- No que realiza a tarefa de toque no cavalete -->
-	<node name="Toque" pkg="aai_robotics" type="fire_touch.py" output = "screen" respawn="false" />
-
-	<!-- Parametros da simulacao para rodar mais leve -->
-	<rosparam command="load" file="$(find aai_robotics)/config/simulation_parametersMAISLEVE.yaml" />
+	<!-- - - - - Nos - - - - - -->
+		<!-- No que transforma comandos de velocidade em comandos para as rodas -->
+		<node name="Controle_baixo_nivel" pkg="aai_robotics" type="vel_to_wheels.py" output = "screen" respawn="true" />
+	  <!-- No que une as informacoes de posicao (gps e imu) em um unico topico -->
+		<node name="Filtro_posicao" pkg="aai_robotics" type="get_pose_from_sensors.py" output = "screen" respawn="true" />
+	  <!-- No que le a posicao e gera comandos de velocidade -->
+		<node name="Campos_Potenciais" pkg="aai_robotics" type="tarefa_v4.py" output = "screen" respawn="false" />
+		<!-- No que controla a posicao da camera pelo hokuyo -->
+		<node name="Coleta_TC" pkg="aai_robotics" type="hokuyo_control.py" output = "screen" respawn="false" />
+		<!-- No que mostra a imagem de profundidade (DEPTH) do kinect-->
+		<node name="Profundidade_kinect" pkg="aai_robotics" type="kinect_depth_show.py" output = "screen" respawn="true" />
+		<!-- No que detecta fogo -->
+		<node name="Detector_fogo" pkg="aai_robotics" type="fire_show.py" output = "screen" respawn="true" />
+		<!-- No que mapeia o fogo detectado -->
+		<node name="Mapeador_fogo" pkg="aai_robotics" type="fire_map.py" output = "screen" respawn="true" />
+		<!-- No que realiza a tarefa de subir as escadas -->
+		<node name="Escada" pkg="aai_robotics" type="subir_escada.py" output = "screen" respawn="false" />
+		<!-- No que realiza a tarefa de toque no cavalete -->
+		<node name="Toque" pkg="aai_robotics" type="fire_touch.py" output = "screen" respawn="false" />
 
 </launch>

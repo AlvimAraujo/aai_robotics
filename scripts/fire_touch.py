@@ -81,8 +81,8 @@ class RosiNodeClass():
     def callback_force(self, data):
         # Calculo e analise da forca
         force = sqrt(data.twist.linear.x**2 + data.twist.linear.y**2 + data.twist.linear.z**2)
-        if force >= 1:
-            #print('forceFlag!!!!')
+        if force > 0.6:
+            # print('forceFlag!!!!')
             self.forceFlag = 1
         else:
             self.forceFlag = 0
@@ -151,8 +151,8 @@ class RosiNodeClass():
         if(self.state == 4):
             #print('estado 4')
             self.desired_joint1 = self.joint1
-            self.desired_joint2 = (self.actual2 + 0.1)
-            self.desired_joint3 = (self.actual3 - 0.1)
+            self.desired_joint2 = (self.actual2 + 0.02)
+            self.desired_joint3 = (self.actual3 - 0.02)
             self.desired_joint4 = self.joint4
             self.desired_joint5 = self.joint5
             self.desired_joint6 = self.joint6

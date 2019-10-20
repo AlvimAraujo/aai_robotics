@@ -15,9 +15,13 @@ Os arquivos com o prefixo "old_" não são mais utilizados e ainda estão no rep
 
 ## Instruções ##
 **0)** Caso não tenha, instale a biblioteca Numpy com o comando `$ pip install numpy`
+
 **1)** Baixe, ou clone, o pacote ROS e coloque-o na workspace desejada.
+
 **2)** Compile o pacote usando a ferramenta catkin build. (Até o momento, não estão sendo usados nós feitos em c++).
+
 **3)** Certifique-se de que a workspace está devidademente sourceada. ($ source devel/setup.bash).
+
 **4)** Execute a última versão do launch. A versão é indicada pelo prefixo "vX_" no nome, onde X é a versão. Portanto, a última versão do launch é a que tiver o nome "vX_rosi_challenge.launch", com o maior valor no lugar do X.
 
 ```
@@ -50,7 +54,7 @@ Abaixo segue a descrição do que fazem, e quais as mudanças, em cada launch di
 
 - `v6_rosi_challenge.launch` --> Adicionado um nó que irá cobrir os desafios de subir e descer a escada.
 
-- `v7_rosi_challenge.launch` --> Agora o fogo detectado é marcado em um mapa da escolha da equipe (images/mapa_rosi.jpg)
+- `v7_rosi_challenge.launch` --> Agora o fogo detectado é marcado em um mapa da escolha da equipe (images/mapa_rosi.jpg) e foi adicionada a tarefa do toque.
 ![Relação entre nós e tópicos](images/v7_rqt_graph.png?raw=true "v4_rqt_graph")
 
 ## Nodes ##

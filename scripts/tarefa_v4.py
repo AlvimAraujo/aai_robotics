@@ -46,7 +46,7 @@ class RosiCmdVelClass():
 		# Topicos que subscreve e publica
 		self.sub_pose = rospy.Subscriber('/aai_rosi_pose', Pose, self.callback_pose)
 		self.pub_cmd_vel = rospy.Publisher('/aai_rosi_cmd_vel', Twist, queue_size=1)
-		self.image_sub = rospy.Subscriber("/aai_depth_show",Image,self.callback_image)
+		self.image_sub = rospy.Subscriber('/aai_depth_show',Image,self.callback_image)
 		# Frequencia de publicacao
 		node_sleep_rate = rospy.Rate(10)
 
@@ -297,8 +297,6 @@ def foo():
 	print('Arthur Henrique Dias Nunes')
 	print('Israel Filipe Silva Amaral')
 	print('\nAAI Robotics - Universidade Federal de Minas Gerais')
-
-
 
 # Funcao main
 if __name__ == '__main__':
