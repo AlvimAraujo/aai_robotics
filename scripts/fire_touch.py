@@ -81,7 +81,7 @@ class RosiNodeClass():
     def callback_force(self, data):
         # Calculo e analise da forca
         force = sqrt(data.twist.linear.x**2 + data.twist.linear.y**2 + data.twist.linear.z**2)
-        if force > 0.6:
+        if force > 0.4:
             # print('forceFlag!!!!')
             self.forceFlag = 1
         else:
@@ -101,7 +101,7 @@ class RosiNodeClass():
         self.actual6 = data.joint_variable[5]
 
         # Checa se o toque ja ocorreu
-        if(self.forceFlag == 1):
+        if(self.forceFlag == 1 and self.state != 0 and self.state != 1 and self.state != 2):
             self.touch = 1
 
         # No ponto especifico inicia a rotina
@@ -116,47 +116,6 @@ class RosiNodeClass():
         elif(abs(self.actual2 - pi/18) <= self.err and abs(self.actual4 + 7*pi/18) <= self.err and self.state == 3):
             self.state = 4
 
-        if(self.state == 0):
-            #print('estado 0')
-            self.desired_joint1 = pi/2
-            self.desired_joint2 = 0.0
-            self.desired_joint3 = 0.0
-            self.desired_joint4 = 0.0
-            self.desired_joint5 = -pi/2
-            self.desired_joint6 = 0.0
-        if(self.state == 1):
-            #print('estado 1')
-            self.desired_joint1 = self.joint1
-            self.desired_joint2 = -pi/18
-            self.desired_joint3 = self.joint3
-            self.desired_joint4 = pi/18
-            self.desired_joint5 = self.joint5
-            self.desired_joint6 = self.joint6
-        if(self.state == 2):
-            #print('estado 2')
-            self.desired_joint1 = self.joint1
-            self.desired_joint2 = self.joint2
-            self.desired_joint3 = pi/3
-            self.desired_joint4 = -5*pi/18
-            self.desired_joint5 = self.joint5
-            self.desired_joint6 = self.joint6
-        if(self.state == 3):
-            #print('estado 3')
-            self.desired_joint1 = self.joint1
-            self.desired_joint2 = pi/18
-            self.desired_joint3 = self.joint3
-            self.desired_joint4 = -7*pi/18
-            self.desired_joint5 = self.joint5
-            self.desired_joint6 = self.joint6
-        if(self.state == 4):
-            #print('estado 4')
-            self.desired_joint1 = self.joint1
-            self.desired_joint2 = (self.actual2 + 0.02)
-            self.desired_joint3 = (self.actual3 - 0.02)
-            self.desired_joint4 = self.joint4
-            self.desired_joint5 = self.joint5
-            self.desired_joint6 = self.joint6
-
         # Volta as juntas para a posicao inicial apos o toque ter sido realizado
         if(self.touch == 1):
             #print('estado 5')
@@ -170,6 +129,46 @@ class RosiNodeClass():
                 self.desired_joint1 = 0.0
                 self.desired_joint5 = 0.0
 
+        if(self.state == 0):
+            # print('estado 0')
+            self.desired_joint1 = self.actual1 + 0.1 #pi/2
+            self.desired_joint2 = 0.0
+            self.desired_joint3 = 0.0
+            self.desired_joint4 = 0.0
+            self.desired_joint5 = self.actual5 - 0.1 #-pi/2
+            self.desired_joint6 = 0.0
+        if(self.state == 1):
+            # print('estado 1')
+            self.desired_joint1 = self.joint1
+            self.desired_joint2 = self.actual2 - 0.05 #-pi/18
+            self.desired_joint3 = self.joint3
+            self.desired_joint4 = self.actual4 + 0.05 #pi/18
+            self.desired_joint5 = self.joint5
+            self.desired_joint6 = self.joint6
+        if(self.state == 2):
+            # print('estado 2')
+            self.desired_joint1 = self.joint1
+            self.desired_joint2 = self.joint2
+            self.desired_joint3 = self.actual3 + 0.03 #pi/3
+            self.desired_joint4 = self.actual4 - 0.03 #-5*pi/18
+            self.desired_joint5 = self.joint5
+            self.desired_joint6 = self.joint6
+        if(self.state == 3):
+            # print('estado 3')
+            self.desired_joint1 = self.joint1
+            self.desired_joint2 = self.actual2 + 0.02 #pi/18
+            self.desired_joint3 = self.joint3
+            self.desired_joint4 = self.actual4 - 0.02 #-7*pi/18
+            self.desired_joint5 = self.joint5
+            self.desired_joint6 = self.joint6
+        if(self.state == 4):
+            # print('estado 4')
+            self.desired_joint1 = self.joint1
+            self.desired_joint2 = self.actual2 + 0.02
+            self.desired_joint3 = self.actual3 - 0.02
+            self.desired_joint4 = self.joint4
+            self.desired_joint5 = self.joint5
+            self.desired_joint6 = self.joint6
 
         self.joint1 = self.desired_joint1
         self.joint2 = self.desired_joint2

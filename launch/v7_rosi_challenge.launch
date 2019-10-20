@@ -8,7 +8,7 @@
 		<!-- Caminho ate onde se encontra o arquivo do mapa o desafio -->
 		<param name="map_path" type="str" value="$(find aai_robotics)/images/mapa_rosi.jpg" />
 		<!-- Fator de escada do mapa a ser mostrado. Valor 1 significa uma imagem de 1900px x 400px -->
-		<param name="map_scale_factor" type="double" value="0.5"/>
+		<param name="map_scale_factor" type="double" value="0.1"/>
 		<!-- Indicator de rotina de toque. Nao altere -->
 		<param name="touch_mode" type="bool" value="False" />
 		<!-- Carregar arquivo com parametros para a simualacao no VREP -->
