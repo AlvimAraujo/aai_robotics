@@ -41,12 +41,12 @@ class image_converter:
         # Fator de escala
         scale = rospy.get_param('map_scale_factor')
         # Tamanho da imagem
-        mapa = cv2.resize(mapa,(int(scale*1900) ,int(scale*400)))
+        mapa = cv2.resize(mapa,(int(scale*1900) ,int(scale*446)))
         w = mapa.shape[1]
         h = mapa.shape[0]
         # aux_h = int(10*scale)
         # aux_w = int(20*scale)
-        aux_r = int(20*scale)
+        aux_r = int(22*scale)
 
         for (x, y) in self.fire_list:
             Pixel_x = (x + 60.21)* w /65.08
@@ -57,7 +57,7 @@ class image_converter:
 
         # Pose do robo quando viu o fogo
         # Pixel_x = (self.pos_x + 60.21)* w /65.08
-        # Pixel_y = 393*h/400 - (self.pos_y + 6.82)* h /13.08
+        # Pixel_y = 393*h/446 - (self.pos_y + 6.82)* h /13.08
         # Pixel_x = int(Pixel_x)
         # Pixel_y = int(Pixel_y)
 
