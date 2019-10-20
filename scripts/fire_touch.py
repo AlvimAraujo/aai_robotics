@@ -2,23 +2,26 @@
 ####################################################
 # REALIZA O CONTROLE DO UR5 PARA TOCAR NO CAVALETE #
 ####################################################
+# Este no controla o manipulador UR5 para que ele toque
+# no cavalete
 
 import rospy
+# Tipos de mensagens utilizadas
 from rosi_defy.msg import ManipulatorJoints
 from geometry_msgs.msg import TwistStamped, Pose
+# Ferramentas para o processamento dos dados
 from math import pi, sqrt
 from tf.transformations import euler_from_quaternion
 
 class RosiNodeClass():
 
+    # Construtor
     def __init__(self):
         # Variaveis que controlam a rotina de toque
         self.touch = 0
         self.state = -1
-
         # Variavel que alerta sobre a forca no sensor da flange
         self.forceFlag = 0
-
         # Comandos a serem enviados para as juntas
         self.joint1 = 0.0
         self.joint2 = 0.0
@@ -26,7 +29,6 @@ class RosiNodeClass():
         self.joint4 = 0.0
         self.joint5 = 0.0
         self.joint6 = 0.0
-
         # Posicao desejada das juntas
         self.desired_joint1 = 0.0
         self.desired_joint2 = 0.0
@@ -35,12 +37,9 @@ class RosiNodeClass():
         self.desired_joint5 = 0.0
         self.desired_joint6 = 0.0
 
-        # Publica em jointsPosTargetCommand
+        # Topics em que publica e subscreve
         self.pub_jointsPos = rospy.Publisher('/ur5/jointsPosTargetCommand',  ManipulatorJoints, queue_size=1)
-
-        self.subpinto = rospy.Subscriber('/aai_rosi_pose', Pose, self.callback_pose)
-
-        # Subscreve em jointsPositionCurrentState, forceTorqueSensorOutput e aai_rosi_pose
+        self.sub_pose = rospy.Subscriber('/aai_rosi_pose', Pose, self.callback_pose)
         self.sub_joints = rospy.Subscriber('/ur5/jointsPositionCurrentState', ManipulatorJoints, self.callback_joints)
         self.sub_force = rospy.Subscriber('/ur5/forceTorqueSensorOutput', TwistStamped, self.callback_force)
 
@@ -49,9 +48,11 @@ class RosiNodeClass():
 
         # Loop principal do algoritmo
         while not rospy.is_shutdown():
+            # Iniciar a rotina de toque quando o parametro for setado
             if rospy.get_param('touch_mode'):
                 if self.state == -1:
                     self.state = 0
+
                 traj = ManipulatorJoints()
                 traj.header.stamp = rospy.Time.now()
                 traj.joint_variable = [self.joint1, self.joint2, self.joint3, self.joint4, self.joint5, self.joint6]
@@ -59,11 +60,11 @@ class RosiNodeClass():
                 self.pub_jointsPos.publish(traj)
                 # Pausa
                 node_sleep_rate.sleep()
+
             else:
                 pass
 
-
-    # Funcao de callback do sensor de forca
+    # Funcao de callback da posicao
     def callback_pose(self, data):
 		q_x = data.orientation.x
 		q_y = data.orientation.y
@@ -76,11 +77,12 @@ class RosiNodeClass():
 		self.pos_y = data.position.y
 		self.angle = euler_angles[2] # Apenas o angulo de Euler no eixo z nos interessa
 
+    # Funcao de callback do sensor de forca
     def callback_force(self, data):
         # Calculo e analise da forca
         force = sqrt(data.twist.linear.x**2 + data.twist.linear.y**2 + data.twist.linear.z**2)
-        if force >= 1.5:
-            #print('forceFlag!!')
+        if force >= 1:
+            #print('forceFlag!!!!')
             self.forceFlag = 1
         else:
             self.forceFlag = 0

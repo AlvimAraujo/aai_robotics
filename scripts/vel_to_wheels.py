@@ -5,7 +5,7 @@
 # Este no representa o controle de baixo nivel
 
 import rospy
-# Estruturas de dados usadas
+# Tipos de mensagens utilizadas
 from rosi_defy.msg import RosiMovement, RosiMovementArray
 from geometry_msgs.msg import Twist
 

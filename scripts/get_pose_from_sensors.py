@@ -2,24 +2,29 @@
 #####################################################################
 # CODIGO QUE UNE AS INFORMACOES UTEIS DE POSICAO EM UM UNICO TOPICO #
 #####################################################################
+# Junta as informacoes de posicao e orientacao em um unico topico
+# de modo a ficar facil a sua utilizacao
+
 import rospy
+# Tipos de mensagens utilizadas
 from sensor_msgs.msg import NavSatFix, Imu
 from geometry_msgs.msg import Pose
 
 class RosiPoseClass():
 
-	# Class constructor
+	# Construtor
     def __init__(self):
-        # Parametros necessarios de posicao e orientacao
+        # Posicao (x, y, z)
         self.position_x = 0.0
         self.position_y = 0.0
         self.position_z = 0.0
+        # Orientacao (x, y, z, w), em quaternios
         self.orientation_quaternion_x = 0.0
         self.orientation_quaternion_y = 0.0
         self.orientation_quaternion_z = 0.0
         self.orientation_quaternion_w = 0.0
 
-        # Nos em que vai se subscrever e publicar
+        # Topicos em que vai se subscrever e publicar
         self.pub_pose = rospy.Publisher('/aai_rosi_pose', Pose, queue_size=10)
         self.sub_gps = rospy.Subscriber('/sensor/gps', NavSatFix, self.callback_gps)
         self.sub_imu = rospy.Subscriber('/sensor/imu', Imu, self.callback_imu)
@@ -28,7 +33,7 @@ class RosiPoseClass():
         node_sleep_rate = rospy.Rate(10)
 
         # Mensagem de inicializacao
-        rospy.loginfo('get_pose_from_sensors iniciado')
+        rospy.loginfo('Filtro de posicao iniciado')
 
         # Loop principal, responsavel pelos procedimentos chaves do programa
         while not rospy.is_shutdown():

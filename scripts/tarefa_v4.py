@@ -12,7 +12,7 @@ import roslib
 import sys
 import cv2
 import numpy as np
-# Estruturas de dados usadas
+# Tipos de mensagens utilizadas
 from geometry_msgs.msg import Twist, Pose
 from std_msgs.msg import String
 from sensor_msgs.msg import Image
@@ -35,22 +35,18 @@ class RosiCmdVelClass():
 		self.pos_x = 0.1
 		self.pos_y = 0.1
 		self.angle = 0.1
-
 		# Posicao relativa do ponto a ser desviado (obstaculo)
 		self.xd = 10
 		self.yd = 10
-
 		# Variavel de controle
 		self.state = 0
-
 		# Tratamento e conversao de imagem
 		self.bridge = CvBridge()
 
-		# Nos que subscreve e publica
+		# Topicos que subscreve e publica
 		self.sub_pose = rospy.Subscriber('/aai_rosi_pose', Pose, self.callback_pose)
 		self.pub_cmd_vel = rospy.Publisher('/aai_rosi_cmd_vel', Twist, queue_size=1)
 		self.image_sub = rospy.Subscriber("/aai_depth_show",Image,self.callback_image)
-
 		# Frequencia de publicacao
 		node_sleep_rate = rospy.Rate(10)
 
@@ -150,7 +146,7 @@ class RosiCmdVelClass():
 			self.state = 2
 			self.Err = 0.2
 			self.Kp = 0.3
-			Pontos = [(-3, 2.5), (-4, 2), (-6.6, 1.8)]
+			Pontos = [(-3, 2.5), (-4, 2), (-6.987, 1.8)]
 
 			for (x_goal, y_goal) in Pontos:
 				vel_msg = Twist()
@@ -178,6 +174,7 @@ class RosiCmdVelClass():
 			vel_msg.linear.x = 0
 			vel_msg.angular.z = 0
 			self.pub_cmd_vel.publish(vel_msg)
+			foo()
 			break
 
 
@@ -287,6 +284,21 @@ class RosiCmdVelClass():
 
 		self.xd = xd
 		self.yd = yd
+
+def foo():
+	print('\n'*5)
+	print('A execucao chegou ao fim.\n')
+	print('A equipe AAI Robotics agradece pela oportunidade!')
+	print('Foi desafiador para todos os tres membros do grupo.')
+	print('Aprendemos muito com o desafio e estamos orgulhosos de termos chegado ate aqui.\n')
+	print('Foi um prazer!')
+	print('Atenciosamente,')
+	print('Alvaro Rodrigues Araujo')
+	print('Arthur Henrique Dias Nunes')
+	print('Israel Filipe Silva Amaral')
+	print('\nAAI Robotics - Universidade Federal de Minas Gerais')
+
+
 
 # Funcao main
 if __name__ == '__main__':

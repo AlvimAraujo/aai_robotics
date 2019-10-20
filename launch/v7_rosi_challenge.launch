@@ -4,6 +4,7 @@
 	<param name="mostar_kinect_depth" type="bool" value="False" />
 	<param name="mostar_fire_cam" type="bool" value="False" />
 	<param name="map_path" type="str" value="$(find aai_robotics)/images/mapa_rosi.jpg" />
+	<param name="map_scale_factor" type="double" value="0.5"/>
 	<param name="touch_mode" type="bool" value="False" />
 
 	<!-- No que transforma comandos de velocidade em comandos para as rodas -->
