@@ -1,0 +1,20 @@
+<launch>
+
+	<!-- No que transforma comandos do teclado em comandos de velocidade -->
+	<node name="vel_to_wheels" pkg="aai_robotics" type="vel_to_wheels.py" output = "screen" respawn="true" />
+
+	<!-- No que mostra a imagem de cores (RGB) do kinect -->
+	<node name="kinect_rgb_show" pkg="aai_robotics" type="kinect_rgb_show.py" output = "screen" respawn="true" />
+
+	<!-- No que mostra a imagem de profundidade (DEPTH) do kinect -->
+	<node name="kinect_depth_show" pkg="aai_robotics" type="kinect_depth_show.py" output = "screen" respawn="true" />
+
+	<!-- No que le o teclado -->
+	<node pkg="turtlesim" name="teleop_key" type="turtle_teleop_key">
+		<remap from="turtle1/cmd_vel" to="aai_rosi_cmd_vel"/>
+	</node>
+
+	<!-- Parametros da simulacao para rodar mais leve -->
+	<rosparam command="load" file="$(find aai_robotics)/config/simulation_parametersMAISLEVE.yaml" />
+
+</launch>

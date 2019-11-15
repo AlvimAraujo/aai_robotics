@@ -48,18 +48,25 @@ class image_converter:
         # Apenas a orientacao da junta 0 interessa
         self.joint = data.joint_variable[0]
 
-    # Callback da posicao
     def callback_pose(self, data):
-		q_x = data.orientation.x
-		q_y = data.orientation.y
-		q_z = data.orientation.z
-		q_w = data.orientation.w
-		# Orientacao de quaternios para angulos de Euler
-		euler_angles = euler_from_quaternion([q_x, q_y, q_z, q_w])
+        q_x = data.orientation.x; q_y = data.orientation.y; q_z = data.orientation.z; q_w = data.orientation.w
+        euler_angles = euler_from_quaternion([q_x, q_y, q_z, q_w])
+        self.pos_x = data.position.x
+        self.pos_y = data.position.y
+        self.angle = euler_angles[2] + pi/2 + self.joint
 
-		self.pos_x  = data.position.x
-		self.pos_y = data.position.y
-		self.angle = euler_angles[2] + pi/2 + self.joint # Orientacao da camera
+#    # Callback da posicao
+#    def callback_pose(self, data):
+#        q_x = data.orientation.x
+#		q_y = data.orientation.y
+#		q_z = data.orientation.z
+#		q_w = data.orientation.w
+#		# Orientacao de quaternios para angulos de Euler
+#		euler_angles = euler_from_quaternion([q_x, q_y, q_z, q_w])
+#
+#		self.pos_x  = data.position.x
+#		self.pos_y = data.position.y
+#		self.angle = euler_angles[2] + pi/2 + self.joint # Orientacao da camera
 
     # Callback do topico do hokuyo
     def callback_hokuyo(self, data):
